@@ -13,8 +13,7 @@ function preload(){
 }
 
 function setup() {
-  frameRate(60);
-  logo_width = 600;
+  logo_width = 250;
   logo_height = logo_width/logo.width * logo.height;
   createCanvas(windowWidth, windowHeight);
   x = random(0,windowWidth-logo_width);
