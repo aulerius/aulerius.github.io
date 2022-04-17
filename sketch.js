@@ -1,67 +1,39 @@
-// Bouncing DVD Logo
-// Daniel Shiffman
-// https://thecodingtrain.com/CodingChallenges/131-bouncing-dvd-logo.html
-// https://youtu.be/0j86zuqqTlQ
+let logo;
 
 let x;
 let y;
-
+let logo_width;
+let logo_height;
 let xspeed;
 let yspeed;
 
-let dvd;
-
-let r, g, b;
-
-function preload() {
-  dvd = loadImage("dvd_logo.png");
+function preload(){
+  logo = loadImage("main.gif");
+  
 }
 
 function setup() {
-  dvd.filter(INVERT);
+  frameRate(60);
+  logo_width = 200;
+  logo_height = logo_width/logo.width * logo.height;
   createCanvas(windowWidth, windowHeight);
-  x = random(width);
-  y = random(height);
-  xspeed = 10;
-  yspeed = 10;
-  pickColor();
+  x = random(0,windowWidth-logo_width);
+  y = random(0,windowHeight-logo_height);
+  xspeed = 3;
+  yspeed = 3;
 }
 
-function pickColor() {
-  r = random(100, 256);
-  g = random(100, 256);
-  b = random(100, 256);
 
-}
 
 function draw() {
   background(0);
-  // rect(x, y, 80, 60);
-  // Draw the DVD logo
-  tint(r, g, b);
-  image(dvd, x, y);
-
-
+  image(logo,x,y,logo_width,logo_height);
+  
   x = x + xspeed;
   y = y + yspeed;
+  
+  if (x+logo_width>=windowWidth || x<=0){xspeed=-xspeed}
 
-  if (x + dvd.width >= width) {
-    xspeed = -xspeed;
-    x = width - dvd.width;
-    pickColor();
-  } else if (x <= 0) {
-    xspeed = -xspeed;
-    x = 0;
-    pickColor();
-  }
-
-  if (y + dvd.height >= height) {
-    yspeed = -yspeed;
-    y = height - dvd.height;
-    pickColor();
-  } else if (y <= 0) {
-    yspeed = -yspeed;
-    y = 0;
-    pickColor();
-  }
+  if (y+logo_height>=windowHeight || y<=0){yspeed=-yspeed}
+  
 }
