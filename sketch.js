@@ -8,7 +8,7 @@ let xspeed;
 let yspeed;
 
 function preload(){
-  logo = loadGif("main.gif", 'the logo');
+  logo = loadGif("main.gif");
   
 }
 
