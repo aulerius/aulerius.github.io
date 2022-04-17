@@ -8,11 +8,11 @@ let xspeed;
 let yspeed;
 
 function preload(){
-  logo = loadGif("main.gif");
-  
+  logo = loadImage("main.gif");
 }
 
 function setup() {
+  frameRate(60);
   logo_width = 250;
   logo_height = logo_width/logo.width * logo.height;
   createCanvas(windowWidth, windowHeight);
