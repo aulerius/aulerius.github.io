@@ -8,13 +8,13 @@ let xspeed;
 let yspeed;
 
 function preload(){
-  logo = loadImage("main.gif");
+  logo = loadGif("main.gif", 'the logo');
   
 }
 
 function setup() {
   frameRate(60);
-  logo_width = 200;
+  logo_width = 250;
   logo_height = logo_width/logo.width * logo.height;
   createCanvas(windowWidth, windowHeight);
   x = random(0,windowWidth-logo_width);
@@ -33,7 +33,12 @@ function draw() {
   y = y + yspeed;
   
   if (x+logo_width>=windowWidth || x<=0){xspeed=-xspeed}
-
   if (y+logo_height>=windowHeight || y<=0){yspeed=-yspeed}
   
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  x = random(0,windowWidth-logo_width);
+  y = random(0,windowHeight-logo_height);
 }
