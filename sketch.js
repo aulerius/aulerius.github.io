@@ -14,7 +14,7 @@ function preload(){
 
 function setup() {
   logo_width = 250;
-  logo_height = logo_width/logo.width * logo.height;
+  logo_height = 104//logo_width/logo.width * logo.height;
   createCanvas(windowWidth, windowHeight);
   x = random(0,windowWidth-logo_width);
   y = random(0,windowHeight-logo_height);
