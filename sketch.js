@@ -18,6 +18,7 @@ function preload() {
 }
 
 function setup() {
+  dvd.filter(INVERT);
   createCanvas(windowWidth, windowHeight);
   x = random(width);
   y = random(height);
