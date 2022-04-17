@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="lt">
+    <head>
+        <meta charset="utf-8">
+        <title>HTML5 šablonas</title>
+        <style>
+            body {
+                font-family: fantasy;
+                margin: 0px;
+                font-size: 30px;
+                background-image: url(backwindow.jpg);
+                background-attachment: fixed;
+            }
+            #can {
+                position: absolute;
+                bottom: 0; 
+                left:0;
+                right:0;
+                margin-left:auto;
+                margin-right:auto;
+            }
+            
+            #can_container {
+       
+            }
+        </style>
+        <script>
+        </script>
+    </head>
+    <body>
+        
+            <canvas id="can" width="900" height="800"></canvas>
+        
+        <script>
+            var fps = 60;
+            var can = document.getElementById("can");
+            var ctx = can.getContext("2d");
+            
+            var laikas = new Date();
+            var val = 0;
+            var min = 0;
+            
+            var min_pic = new Image();
+            min_pic.src = "clock-assets/min.png";
+            var back_pic = new Image();
+            back_pic.src = "back.png";
+            var clock_pic = new Image();
+            clock_pic.src = "clock-assets/clock.png";
+            var sec_pic = new Image();
+            sec_pic.src = "clock-assets/sec.png";
+            var val_pic = new Image();
+            val_pic.src = "clock-assets/val.png";
+            
+            var sek = 0;
+            
+            
+            // spalvos aprasymas kintamuoju paverciant i sesioliktaine
+            // 0xFFFFFF - supras kad tai maksimalus galimas skaicius
+            // var spalva = "#" + Math.ceil(Math.random() * 0xFFFFFF).toString(16);
+            
+            //ctx.translate(x,y) / rotate(rad) / save() / rotate()
+            //translate - koord pradzia keicia
+            //rotate - pasuka koord pradzia (ir viska)
+            //save - issaugo koord busena
+            //restore - atkuria paskutini issaugota taska
+            
+            function frame(){ //pastoviai kartojasi
+                setTimeout(frame, 1000/fps); //save pati iskviecia vel
+                calc();
+                requestAnimationFrame(render);
+                
+            }
+            function calc(){ //atliekami skaiciavimai, iskvieciama tiesiogiai
+                laikas = new Date();
+                val = laikas.getHours();
+                min = laikas.getMinutes();
+                sek = laikas.getSeconds();
+            }
+            function render(){ //piesimas i ekrana, lauks kol bus matoma
+                ctx.clearRect(0,0,can.width,can.height);
+                ctx.save();
+                    ctx.drawImage(back_pic, 0, 0);
+
+                    ctx.translate(550, 450);
+                    ctx.drawImage(clock_pic, -225, -230);
+
+                    ctx.rotate(-Math.PI);
+                    ctx.save();
+                        ctx.rotate((Math.PI / 6 * val) + Math.PI / 30 * min / 12);
+                        ctx.drawImage(val_pic, -3, -5);
+                    ctx.restore();
+                    ctx.save();
+                        ctx.rotate(Math.PI / 30 * min);
+                        ctx.drawImage(min_pic, -11, -5); //pic variable, x coord, y coord
+                    ctx.restore();
+                    ctx.save();
+                        ctx.rotate(Math.PI / 30 * sek);
+                        ctx.drawImage(sec_pic, -4, -5);
+                    ctx.restore();
+                ctx.restore();
+
+            }
+            
+
+            frame(); //pradeda funkciju sukimasi
+        </script>
+    </body>
+</html>
