@@ -1,3 +1,4 @@
+p5.disableFriendlyErrors = true;
 let logo;
 
 let x;
@@ -14,7 +15,7 @@ function preload(){
 
 function setup() {
   frameRate(60);
-  logo_width = 250;
+  logo_width = 280;
   logo_height = logo_width/logo.width * logo.height;
   createCanvas(windowWidth, windowHeight);
   x = random(0,windowWidth-logo_width);
