@@ -40,3 +40,10 @@ function draw() {
   if (y+logo_height>=windowHeight || y<=0){yspeed=-yspeed}
   
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  x = random(0,windowWidth-logo_width);
+  y = random(0,windowHeight-logo_height);
+  background(0);
+}
