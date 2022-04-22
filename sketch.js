@@ -33,7 +33,7 @@ function draw() {
   blendMode(BLEND);
   background('rgba(0,0,0, 0.15)');
   blendMode(ADD);
-  if(logo!=undefined) {logo(logo,x,y,logo_width,logo_height)}
+  if(logo!=undefined) {image(logo,x,y,logo_width,logo_height)}
   else {rect(x,y,logo_width,logo_height)}
 
   
