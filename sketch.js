@@ -9,14 +9,15 @@ let xspeed;
 let yspeed;
 
 function preload(){
-  logo = loadImage("main.gif");
-  
+  //print(logo);
 }
 
 function setup() {
+  loadImage("main.gif",function(loadedImage){logo = loadedImage});
   frameRate(60);
   logo_width = 280;
-  logo_height = logo_width/logo.width * logo.height;
+  if(logo!=undefined) {logo_height = logo_width/logo.width * logo.height}
+  else {logo_height = logo_width*0.6}
   createCanvas(windowWidth, windowHeight);
   x = random(0,windowWidth-logo_width);
   y = random(0,windowHeight-logo_height);
@@ -31,7 +32,9 @@ function draw() {
   blendMode(BLEND);
   background('rgba(0,0,0, 0.15)');
   blendMode(ADD);
-  image(logo,x,y,logo_width,logo_height);
+  if(logo!=undefined) {logo(logo,x,y,logo_width,logo_height)}
+  else {rect(x,y,logo_width,logo_height)}
+
   
   x = x + xspeed;
   y = y + yspeed;
