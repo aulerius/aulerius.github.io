@@ -1,7 +1,27 @@
-html, body {
+canvas {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}
+body {
+  background: black;
   margin: 0;
   padding: 0;
 }
-canvas {
-  display: block;
+#main{
+  font-family: arial;
+  font-style: normal;
+
+  margin-top: 30vh;
+  color: white;
+  font-size: 5vmin;
+  text-align: center;
+  
+}
+.info{
+  background: black;
+}
+.info_content{
+  background: gray;
 }
