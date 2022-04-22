@@ -9,11 +9,12 @@ let xspeed;
 let yspeed;
 
 function preload(){
+  loadImage("main.gif",function(loadedImage){logo = loadedImage});
   //print(logo);
 }
 
 function setup() {
-  loadImage("main.gif",function(loadedImage){logo = loadedImage});
+  
   frameRate(60);
   logo_width = 280;
   if(logo!=undefined) {logo_height = logo_width/logo.width * logo.height}
