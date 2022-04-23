@@ -24,8 +24,8 @@ function setup() {
   updatelogoHeight();
   x = random(0,windowWidth-logo_width);
   y = random(0,windowHeight-logo_height);
-  xspeed = updatescale(0.003);
-  yspeed = updatescale(0.003);
+  xspeed = updatescale(0.002);
+  yspeed = updatescale(0.002);
 }
 
 
@@ -75,4 +75,9 @@ function updatelogoHeight(){
     logo_height = logo_width/logo.width * logo.height}
   else{
     logo_height = logo_width*0.6}
+}
+
+function loadedImage(){
+  logo_width = updatescale(logo_scale);
+  updatelogoHeight();
 }
