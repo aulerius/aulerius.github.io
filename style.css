@@ -15,7 +15,7 @@ body {
 
   margin-top: 30vh;
   color: white;
-  font-size: 5vmin;
+  font-size: 4.5vmin;
   text-align: center;
   
 }
@@ -23,5 +23,12 @@ body {
   background: black;
 }
 .info_content{
-  background: gray;
+  background: rgb(100, 100, 100);
+}
+.extras{
+  margin: 1em;
+  font-size: 3.5vmin;
+}
+a{
+
 }
