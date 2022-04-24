@@ -8,18 +8,18 @@ let logo_width;
 let logo_height;
 let xspeed;
 let yspeed;
+let myFile;
 
 let timeOutFunctionId;
 
 function preload(){
-  //print(logo);
+  loadImage("https://aulerius.github.io/main.gif",loadedImage);
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
   background(0);
-  loadImage("main.gif",function(loadedImage){logo = loadedImage});
   logo_width = updatescale(logo_scale);
   updatelogoHeight();
   x = random(0,windowWidth-logo_width);
@@ -77,7 +77,10 @@ function updatelogoHeight(){
     logo_height = logo_width*0.6}
 }
 
-function loadedImage(){
+function loadedImage(img){
+  print('loaded');
+  logo = img;
   logo_width = updatescale(logo_scale);
   updatelogoHeight();
 }
+
