@@ -4,6 +4,7 @@ let logo;
 let x;
 let y;
 let logo_scale = 0.16;
+let logo_speed = 0.012;
 let logo_width;
 let logo_height;
 let xspeed;
@@ -24,8 +25,8 @@ function setup() {
   updatelogoHeight();
   x = random(0,windowWidth-logo_width);
   y = random(0,windowHeight-logo_height);
-  xspeed = updatescale(0.002);
-  yspeed = updatescale(0.002);
+  xspeed = logo_width*logo_speed;
+  yspeed = logo_width*logo_speed;
 }
 
 
@@ -37,7 +38,6 @@ function draw() {
   if(logo!=undefined) {image(logo,x,y,logo_width,logo_height)}
   else {rect(x,y,logo_width,logo_height)}
 
-  
   x = x + xspeed;
   y = y + yspeed;
   
@@ -54,15 +54,15 @@ function windowResized() {
   timeOutFunctionId = setTimeout(updatecanvas, 200);
 }
 function updatecanvas(){
-  logo_width = updatescale(logo_scale);
+  logo_width = updatescale(logo_scale, 0);
   updatelogoHeight()
   x = random(0,windowWidth-logo_width);
   y = random(0,windowHeight-logo_height);
-  xspeed = updatescale(0.003);
-  yspeed = updatescale(0.003);
+  xspeed = logo_width*logo_speed;
+  yspeed = logo_width*logo_speed;
 }
 
-function updatescale(scale_ratio){
+function updatescale(scale_ratio, bias){
   updatelogoHeight();
   if (windowWidth > windowHeight){
     return scale_ratio * windowWidth}
@@ -78,8 +78,8 @@ function updatelogoHeight(){
 }
 
 function loadedImage(img){
-  print('loaded');
   logo = img;
-  logo_width = updatescale(logo_scale);
+  logo_width = updatescale(logo_scale, 0);
   updatelogoHeight();
 }
+
