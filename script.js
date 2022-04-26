@@ -14,7 +14,7 @@ let myFile;
 let timeOutFunctionId;
 
 function preload(){
-  loadImage("main.gif",loadedImage);
+  loadImage("https://a101cinema.info/main.gif",loadedImage);
 }
 
 function setup() {
@@ -56,10 +56,12 @@ function windowResized() {
 function updatecanvas(){
   logo_width = updatescale(logo_scale, 0);
   updatelogoHeight()
-  x = random(0,windowWidth-logo_width);
-  y = random(0,windowHeight-logo_height);
-  xspeed = logo_width*logo_speed;
-  yspeed = logo_width*logo_speed;
+  if((x+logo_width>=windowWidth || x<=0) || (y+logo_height>=windowHeight || y<=0)){
+    x = random(0,windowWidth-logo_width);
+    y = random(0,windowHeight-logo_height);
+  }
+  xspeed = logo_width*logo_speed*Math.sign(xspeed);
+  yspeed = logo_width*logo_speed*Math.sign(yspeed);
 }
 
 function updatescale(scale_ratio, bias){
