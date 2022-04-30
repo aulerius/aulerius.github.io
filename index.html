@@ -8,6 +8,7 @@
 </head>
 <body>
   <div id="main">
+    <div id="question_mark">?</div>
     <div class="info_group">
       <span class="info">current screening schedule:</span> <br>
     </div>
@@ -28,7 +29,48 @@
     <div class="info_group">
       <span class="info_content">2h 4m</span> <br>
     </div>
-    <div class="extras"> <a href="https://fb.me/e/2eMUVtmqb">fb event<a></div>
+    <div class="info_group" style="margin-top: 1em;">
+    <span class="extras"> <a href="https://fb.me/e/1j8povpBX">fb event<a></span>
+    <span class="extras"> <a href="https://docs.google.com/spreadsheets/d/19VuIHHfXWdGLnEVLMkBOQXKXy5d1tFoYGq0e9RjBQ4c/edit?usp=sharing">suggest films<a></span>
+    </div>
   </div>
+      
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Initiative titled <b>AIOI cinema</b> is an invitation to participate in film screening rituals, using room A101, open to all of EKA community.</p>
+      <p>Kickstarted by Aurelijus and animation department, the goal is to establish weekly tradition and foster engagement and ideas from all of EKA students. Please leave screening suggestions in the <a href="https://docs.google.com/spreadsheets/d/19VuIHHfXWdGLnEVLMkBOQXKXy5d1tFoYGq0e9RjBQ4c/edit?usp=sharing">google doc<a>. The optimal timing of screenings and choosing of films is still being worked out through experimentation. In some cases, we may arrange renting or access to some hard-to-get films with help of EKA</p>
+      <p>This webpage will be maintained and updated as details change. Write to aurelijus.ciupas@artun.ee if you want to chat about this initiative.</p>
+    </div>
+  </div>
+    
+  <script>
+  // Get the modal
+  var modal = document.getElementById("question_mark");
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal 
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
 </body>
 </html>
