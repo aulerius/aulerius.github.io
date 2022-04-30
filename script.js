@@ -19,7 +19,7 @@ function preload(){
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  frameRate(60);
+  pixelDensity(1);
   background(0);
   logo_width = updatescale(logo_scale);
   updatelogoHeight();
@@ -38,8 +38,8 @@ function draw() {
   if(logo!=undefined) {image(logo,x,y,logo_width,logo_height)}
   else {rect(x,y,logo_width,logo_height)}
 
-  x = x + xspeed;
-  y = y + yspeed;
+  x = x + xspeed*deltaTime*0.05;
+  y = y + yspeed*deltaTime*0.05;
   
   if (x+logo_width>=windowWidth || x<=0){xspeed=-xspeed}
 
