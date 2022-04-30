@@ -70,6 +70,7 @@ body {
 }
 
 .modal {
+  font-size: 1.1em;
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -89,7 +90,7 @@ body {
   font-style: normal;
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
+  padding: 2em;
   border: 1px solid #888;
   width: 50%;
 }
@@ -98,7 +99,7 @@ body {
 .close {
   color: #aaaaaa;
   float: right;
-  font-size: 28px;
+  font-size: 2em;
   font-weight: bold;
 }
 
@@ -108,3 +109,4 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
