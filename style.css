@@ -86,12 +86,13 @@ body {
 
 /* Modal Content */
 .modal-content {
+  color: white;
   font-family: arial;
   font-style: normal;
-  background-color: #fefefe;
+  background-color: rgb(10,10,10); 
   margin: auto;
   padding: 2em;
-  border: 1px solid #888;
+  border: 1px solid rgb(100,100,100);;
   width: 50%;
 }
 
@@ -105,7 +106,7 @@ body {
 
 .close:hover,
 .close:focus {
-  color: #000;
+  color: red;
   text-decoration: none;
   cursor: pointer;
 }
