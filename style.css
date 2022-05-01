@@ -70,7 +70,7 @@ body {
 }
 
 .modal {
-  font-size: 2em;
+  font-size: 1rem;
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -93,15 +93,17 @@ body {
   margin: auto;
   padding: 2em;
   border: 1px solid rgb(100,100,100);;
-  width: 50%;
+  width: 80vmin;
 }
 
 /* The Close Button */
 .close {
+  margin: 1%;
   color: #aaaaaa;
   float: right;
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: bold;
+  transform: translate(90%,-60%);
 }
 
 .close:hover,
