@@ -9,14 +9,28 @@ body {
   margin: 0;
   padding: 0;
 }
-#main{
+#content{
+  width: 96vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5vh;
+  text-align: center;
+}
+#poster{
+  object-fit: contain;
+  width: 96vmin;
+  height: 50vmax;
+
+}
+#main_info{
+  display: inline-block;
+  vertical-align: top;
   font-family: arial;
   font-style: normal;
-
-  margin-top: 15vh;
   color: white;
   font-size: 4.5vmin;
   text-align: center;
+  margin-bottom: 3%;
   
 }
 .info{
@@ -32,15 +46,20 @@ body {
 .info_group{
   margin: 0.16em;
 }
-.extras{
+.extras_group{
+  font-family: arial;
+  font-style: normal;
   font-size: 4vmin;
-  margin-right: 1em;
+  text-align: center;
+  margin-top: 2%;
 }
 #question_mark{
-  font-size: 1.75em;
-  margin-left: 7.5em;
-  margin-bottom: 0.5em;
-  height: auto;
+  font-family: arial;
+  font-style: normal;
+  font-size: 2.25em;
+  position: fixed;
+  top: 4%;
+  right: 7%;
   color: red;
   animation: rotate 6s both infinite;
   animation-timing-function: linear;
