@@ -19,7 +19,7 @@ body {
 #poster{
   object-fit: contain;
   width: 96vmin;
-  height: 50vmax;
+  height: 48vmax;
   vertical-align: middle;
 
 }
@@ -90,7 +90,7 @@ body {
 }
 
 .modal {
-  font-size: 1.5rem;
+  font-size: 1rem;
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
