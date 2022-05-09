@@ -20,11 +20,12 @@ body {
   object-fit: contain;
   width: 96vmin;
   height: 50vmax;
+  vertical-align: middle;
 
 }
 #main_info{
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   font-family: arial;
   font-style: normal;
   color: white;
@@ -56,7 +57,7 @@ body {
 #question_mark{
   font-family: arial;
   font-style: normal;
-  font-size: 2.25em;
+  font-size: 8vmin;
   position: fixed;
   top: 4%;
   right: 7%;
