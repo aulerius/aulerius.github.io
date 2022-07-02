@@ -14,7 +14,7 @@ let myFile;
 let timeOutFunctionId;
 
 function preload(){
-  loadImage("https://a101cinema.info/main.gif",loadedImage);
+  loadImage("https://aulerius.github.io/a101cinema/main.gif",loadedImage);
 }
 
 function setup() {
