@@ -51,10 +51,10 @@
   }
 </style>
 <body>
-  <img id='banner' src="https://a101cinema.info/every_person/banner.jpg"> <br>
+  <img id='banner' src="./banner.jpg"> <br>
   <div id='info'>
     <div id='profile_pic'> 
-      <img  src="https://a101cinema.info/every_person/title_text.gif">
+      <img  src="./title_text.gif">
     </div>
     <h1 id='title'> every person </h1>
     <p id='description'>
@@ -73,7 +73,7 @@
 
     for (y = 1; y < 29; y++) {
         var img = document.createElement("img");
-        img.src = "https://a101cinema.info/every_person/" + ('00'+y).slice(-2) + ".gif";
+        img.src = "./" + ('00'+y).slice(-2) + ".gif";
         img.classList.add('person');
         person_container.appendChild(img);
     }
