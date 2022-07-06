@@ -1,0 +1,14 @@
+{
+	"persons": [
+	{
+		"person": "the first person",
+		"person_text": "My routine and social joys are borrowing more and more attention from my precious rituals of drawing. My right hand is also heavily strained, overworked. What's left are directionless ramblings of line and texture, splotches of anxiety and boredom scattered randomly across the pages, often lasting mere minutes. Yet in this doodle junkyard I notice people and I cannot help but see everyone and anything as at least a tiny bit special…",
+		"token_id": 0
+	},
+	{
+		"person": "quite wrapped person",
+		"person_text": "Riding my bike these cold days gets really tough on my cheeks. And on my forehead, and on my chin, and on my neck… \\n\nA pain developed, stayed, in an unusual spot, inside my jaw. \\n\nThe languages that the doctor spoke did not overlap with the languages that I spoke, but they patiently repeated sentences in slow and clear manner as my device frantically tried to validate the \"smart\" in the smartphone. Through the barely held thread of connection I got one clear message  - with a dull gesture they showed how my scarf should go on me. \\n\nI waved the pain goodbye and hope to be as helpful as they were to people of foreing tongue.",
+		"token_id": 1
+	}
+	]
+}
