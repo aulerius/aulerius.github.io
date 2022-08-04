@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta property='og:title' content='aulerius'/>
+<meta property="og:type" content='website'/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <meta charset="UTF-8">
+  <title>AIOI cinema</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js'></script><script  src="./script.js"></script>
+</head>
+<style>
+    canvas {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+  }
+  body {
+    background: rgb(10, 10, 10);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  #hello{
+    font-size: 1em;
+    font-family: Sans-serif;
+    color:  rgb(200, 200, 200);
+    z-index: 10;
+    width: 50vmax;
+    text-align: center;
+    margin: auto;
+    margin-top: 40vh;
+    filter: drop-shadow(0px 0px 2em rgba(10, 10, 10, 1));
+  }
+  img{
+    z-index: -10;
+  }
+  video{
+    z-index: -9;
+  }
+</style>
+<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <p id='hello'>
+  Hello! You are early. <br>
+  I hope this to be my digital home eventually... <br>
+  Nowadays I'm occupied with conceptualizing, building, animating, struggling, celebrating and suffering for my short animated debut film for MA thesis. <br><br>
+    Until that's done, you can check my creative outputs through this <a href="https://linktr.ee/aulerius"> linktree </a>
+  </p>
+    
+  <script>
+    let canvas;
+    let hands = [];
+    let clap;
+
+    let x = [0,0];
+    let y = [0,0];
+    let hue = 0;
+    let impactPos = [0,0];
+    const img_scale = 0.14;
+    const hands_speed = 0.02;
+    let xspeed = [0,0];
+    let yspeed = [0,0];
+    let hands_size = [150,100];
+    let clap_size = [500,540];
+    const clapThreshold = 0.1;
+    let resizeTimeout;
+    let clapTimeout;
+    let clapEvent = false;
+
+
+    function preload(){
+      temp = loadImage('https://aulerius.art/l_hand.png');
+      temp = loadImage('https://aulerius.art/r_hand.png');
+      hands[0] = createImg("https://aulerius.art/l_hand.png", "left hand");
+      hands[1] = createImg("https://aulerius.art/r_hand.png", "right hand");
+      temp = undefined;
+
+      clap = createVideo("https://aulerius.art/clap.mp4");
+      clap.hide();
+    }
+
+    function setup() {
+      canvas = createCanvas(windowWidth, windowHeight);
+      pixelDensity(1);
+      //==console.log( [ hands[0].size()["width"], hands[0].size()["height"] ]);
+      hands_size = updateSize([hands[0].size()["width"],hands[0].size()["height"]]);
+      hands[0].size(AUTO,hands_size[1]); hands[1].size(AUTO,hands_size[1]);
+      //clap_size = [getScale(500*img_scale),getScale(550*img_scale)]*0.02;
+      clap_size = updateSize([500,540]).map(par => par*1.2);
+      clap.size(clap_size[0],clap_size[1]);
+      resetHands();
+
+      //colorMode(HSB, 100);
+    }
+
+    function draw() {
+      //clear();
+      //console.log("draw");
+      //hue += 0.1;
+      //fill(color(hue%100,90,random(50,95)));
+      //rect(x[1]+hands_size[0]/2,y[1]+hands_size[1]/2,15,15);
+      //rect(x[0]+hands_size[0]/2,y[0]+hands_size[1]/2,15,15);//debug center
+      for(let i=0; i<2; i++){
+        if(hands[0]!=undefined) {hands[i].position(x[i],y[i])}
+        else {rect(x[i],y[i],hands_size[0],hands_size[1])}
+
+        x[i] = x[i] + xspeed[i]*deltaTime*0.05;
+        y[i] = y[i] + yspeed[i]*deltaTime*0.05;
+
+        if (x[i]+hands_size[0]>=windowWidth){xspeed[i]=-hands_size[0]*hands_speed}
+        else if (x[i]<=0){xspeed[i]=hands_size[0]*hands_speed}
+
+        if (y[i]+hands_size[1]>=windowHeight){yspeed[i]=-hands_size[0]*hands_speed}
+        else if (y[i]<=0){yspeed[i]=hands_size[0]*hands_speed}
+      };
+
+
+      if (checkProximity(clapThreshold)!=undefined && !clapEvent){
+        clapEvent = true;
+        impactPos = checkProximity(clapThreshold);
+        hands.forEach(element => element.hide());
+        clap.position(impactPos[0]-clap_size[0]/1.5,impactPos[1]-clap_size[1]/1.5);
+        clap.play();
+        clap.show();
+        let rnd = random(0.9,1.1);
+        xspeed[0] *= -rnd; xspeed[1] *= -rnd;
+        clapTimeout = setTimeout(function(){
+          clapEvent=false;
+          clap.hide();
+          clap.stop();
+          hands.forEach(element => element.show());
+        }, 940);
+      }
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updatecanvas, 200);
+    }
+    function updatecanvas(){
+      hands_size = updateSize(hands_size);
+      clap_size = [getScale(500*img_scale),getScale(550*img_scale)]*1.1;
+      clap.size(AUTO,clap_size[1]);
+      hands[0].size(AUTO,hands_size[1]); hands[1].size(AUTO,hands_size[1]);
+      xspeed.map(par => hands_size[0]*hands_speed*Math.sign(par));
+    }
+
+    function resetHands(){
+      x = x.map(par => random(0,windowWidth-hands_size[0]));
+      y = y.map(par => random(0,windowHeight-hands_size[1]));
+      xspeed[1] = hands_size[0]*hands_speed;
+      yspeed[1] = xspeed[1];
+      xspeed[0] = -xspeed[1];
+      yspeed[0] = -yspeed[1];
+    }
+
+    function checkProximity(threshold){
+      x_center = [x[0]+hands_size[0]/2, x[1]+hands_size[1]/2];
+      y_center = [y[0]+hands_size[0]/2, y[1]+hands_size[1]/2];
+      if (dist(x_center[0], y_center[0], x_center[1], y_center[1])<getScale(threshold)){
+        return [(x_center[0]+x_center[1])/2, (y_center[0]+y_center[1])/2];
+      }
+    }
+
+    function getScale(scale_ratio){
+      if (windowWidth > windowHeight){
+        return scale_ratio * windowWidth}
+      else{
+        return scale_ratio * windowHeight}
+    }
+
+    function updateSize(size){
+      ratio = size[0]/size[1];
+      return [ratio * getScale(img_scale), getScale(img_scale)];
+    }
+  </script>
+</body>
+</html>
