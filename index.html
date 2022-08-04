@@ -28,7 +28,7 @@
     font-family: Sans-serif;
     color:  rgb(200, 200, 200);
     z-index: 10;
-    width: 50vmax;
+    width: 40vmax;
     text-align: center;
     margin: auto;
     margin-top: 40vh;
@@ -88,8 +88,7 @@
       //==console.log( [ hands[0].size()["width"], hands[0].size()["height"] ]);
       hands_size = updateSize([hands[0].size()["width"],hands[0].size()["height"]]);
       hands[0].size(AUTO,hands_size[1]); hands[1].size(AUTO,hands_size[1]);
-      //clap_size = [getScale(500*img_scale),getScale(550*img_scale)]*0.02;
-      clap_size = updateSize([500,540]).map(par => par*1.2);
+      clap_size = updateSize([500,540]).map(par => par*1.1);
       clap.size(clap_size[0],clap_size[1]);
       resetHands();
 
@@ -142,10 +141,10 @@
       resizeTimeout = setTimeout(updatecanvas, 200);
     }
     function updatecanvas(){
-      hands_size = updateSize(hands_size);
-      clap_size = [getScale(500*img_scale),getScale(550*img_scale)]*1.1;
-      clap.size(AUTO,clap_size[1]);
+      hands_size = updateSize([hands[0].size()["width"],hands[0].size()["height"]]);
       hands[0].size(AUTO,hands_size[1]); hands[1].size(AUTO,hands_size[1]);
+      clap_size = updateSize([500,540]).map(par => par*1.1);
+      clap.size(clap_size[0],clap_size[1]);
       xspeed.map(par => hands_size[0]*hands_speed*Math.sign(par));
     }
 
