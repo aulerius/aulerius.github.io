@@ -7,11 +7,11 @@
 
 
   <meta charset="UTF-8">
-  <title>AIOI cinema</title>
+  <title>aulerius</title>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js'></script><script  src="./script.js"></script>
 </head>
 <style>
-    canvas {
+   canvas {
     position: fixed;
     bottom: 0;
     right: 0;
@@ -28,11 +28,16 @@
     font-family: Sans-serif;
     color:  rgb(200, 200, 200);
     z-index: 10;
-    width: 40vmax;
+    width: 50vmax;
     text-align: center;
     margin: auto;
-    margin-top: 40vh;
     filter: drop-shadow(0px 0px 2em rgba(10, 10, 10, 1));
+  }
+  #hello_container{
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
   img{
     z-index: -10;
@@ -43,6 +48,7 @@
 </style>
 <body>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <p id='hello'>
   Hello! You are early. <br>
   I hope this to be my digital home eventually... <br>
@@ -79,12 +85,16 @@
       temp = undefined;
 
       clap = createVideo("https://aulerius.art/clap.mp4");
+      clap.stop()
+      clap.autoplay(false);
+      clap.noLoop(true);
       clap.hide();
     }
 
     function setup() {
       canvas = createCanvas(windowWidth, windowHeight);
       pixelDensity(1);
+
       //==console.log( [ hands[0].size()["width"], hands[0].size()["height"] ]);
       hands_size = updateSize([hands[0].size()["width"],hands[0].size()["height"]]);
       hands[0].size(AUTO,hands_size[1]); hands[1].size(AUTO,hands_size[1]);
@@ -146,6 +156,7 @@
       clap_size = updateSize([500,540]).map(par => par*1.1);
       clap.size(clap_size[0],clap_size[1]);
       xspeed.map(par => hands_size[0]*hands_speed*Math.sign(par));
+      yspeed.map(par => hands_size[0]*hands_speed*Math.sign(par));
     }
 
     function resetHands(){
@@ -176,6 +187,7 @@
       ratio = size[0]/size[1];
       return [ratio * getScale(img_scale), getScale(img_scale)];
     }
+
   </script>
 </body>
 </html>
