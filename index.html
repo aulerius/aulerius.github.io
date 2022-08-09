@@ -87,13 +87,13 @@
       temp = undefined;
 
       clap = createVideo("https://aulerius.art/clap.mp4");
+    }
+
+    function setup() {
       clap.stop()
       clap.autoplay(false);
       clap.noLoop(true);
       clap.hide();
-    }
-
-    function setup() {
       canvas = createCanvas(windowWidth, windowHeight);
       pixelDensity(1);
 
