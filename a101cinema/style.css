@@ -8,23 +8,28 @@ body {
   background: black;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 #content{
-  width: 96vw;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5vh;
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  width: 60vw;
+  height: 82vh;
+  margin: auto;
+  margin-top: 4vh;
+  
 }
 #poster{
   object-fit: contain;
-  width: 96vmin;
-  height: 48vmax;
+  width: 50%;
+  height: 100%;
   vertical-align: middle;
-
 }
 #main_info{
   display: inline-block;
+  width: 50%;
   vertical-align: middle;
   font-family: arial;
   font-style: normal;
@@ -32,10 +37,20 @@ body {
   font-size: 4.5vmin;
   text-align: center;
   margin-bottom: 3%;
-  
 }
-.info{
-  
+@media screen and (min-height: 100vw) {
+  /* The width is greater than the height */
+  #content {
+    width: 76vw;
+    height: auto;
+  }
+  #poster,
+  #main_info{
+    width: 100%;
+  }
+}
+
+.info{ 
   background: rgb(120, 120, 120);
   padding: 0.11em;
   color: black;
@@ -50,9 +65,13 @@ body {
 .extras_group{
   font-family: arial;
   font-style: normal;
-  font-size: 4vmin;
+  font-weight: bold;
+  font-size: 3vmin;
   text-align: center;
   margin-top: 2%;
+  color: white;
+  animation: rotate-hue 6s both infinite;
+  animation-timing-function: linear;
 }
 #question_mark{
   font-family: arial;
@@ -85,6 +104,23 @@ body {
   }
   100% {
     transform: rotateY(360deg);
+    filter: hue-rotate(360deg);
+  }
+}
+@keyframes rotate-hue {
+  0 {
+    filter: hue-rotate(0deg); 
+  }
+  25% {
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    filter: hue-rotate(270deg);
+  }
+  100% {
     filter: hue-rotate(360deg);
   }
 }
