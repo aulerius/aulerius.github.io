@@ -89,6 +89,18 @@
 		"filename": "16_sorrowful_pumpkin.gif",
 		"person_text": "Having a cig is their break from happiness. They really notice it, devote themselves to it, treat it as their own.\r\nI mean the feeling, not the cig. The cig is there to kick off the ritual. I hope they don't chains-moke though.",
 		"token_id": 16
-	}
+	},
+	{
+		"person_title": "half a sunshine person",
+		"filename": "15_halfasunshine.gif",
+		"person_text": "Whether it's half full, or half empty, it will do for now.\r\nI am thirsty, and will be less so after drinking it.",
+		"token_id": 17
+	},
+	{
+		"person_title": "anger horse person balancing a lighter",
+		"filename": "14_anger_horse.gif",
+		"person_text": "No I don't have a light, but would you still like to chat? I swear I'll make myself useful next time.",
+		"token_id": 18
+	},
 	]
 }
