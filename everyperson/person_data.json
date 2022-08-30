@@ -16,7 +16,9 @@
 		"person_title": "T-pose person",
 		"filename": "18_tpose.gif",
 		"person_text": "Everytime I think it's done, it's not done. You are like a piece of sticky tape on my table that I never choose to throw away for good, but when I will, I hope you don't mind.",
-		"token_id": 2
+		"token_id": 2,
+		"curious_about_filename": "t-pose.jpg",
+		"curious_about_token_id": 28778
 	},
 	{
 		"person_title": "person with nice abs in the future",
@@ -34,7 +36,9 @@
 		"person_title": "person who confused their arms",
 		"filename": "03_confused_arms.gif",
 		"person_text": "Do octopuses and squids ever get tangled up? I could look that up. But I won't. I will add this to the expansive list of things I know that I don't know.\r\nI hope they don't though, that would be embarrassing and evolution is better than that.",
-		"token_id": 5
+		"token_id": 5,
+		"curious_about_filename": "confused_arms.jpg",
+		"curious_about_token_id": 27812
 	},
 	{
 		"person_title": "denosed, but well groomed person",
