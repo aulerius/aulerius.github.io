@@ -15,7 +15,7 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
-  width: 70vw;
+  width: 60vw;
   height: 82vh;
   margin: auto;
   margin-top: 4vh;
@@ -66,64 +66,56 @@ body {
   font-family: arial;
   font-style: normal;
   font-weight: bold;
-  font-size: 3vmin;
+  font-size: 3.5vmin;
   text-align: center;
   margin-top: 2%;
-  color: white;
+}
+.colorshift{
   animation: rotate-hue 6s both infinite;
   animation-timing-function: linear;
-  filter: drop-shadow(0 0 3vmin #FFFFFF);
 }
 #question_mark{
   font-family: arial;
-  font-style: normal;
   font-size: 8vmin;
   position: fixed;
   top: 4%;
   right: 7%;
-  color: red;
+  cursor: pointer;
   animation: rotate 6s both infinite;
   animation-timing-function: linear;
-  cursor: pointer;
-  filter: drop-shadow(0 0 3vmin #FFFFFF);
 }
 @keyframes rotate {
   0 {
     transform: rotateY(0);
-    filter: hue-rotate(0deg); 
   }
   25% {
     transform: rotateY(180deg);
-    filter: hue-rotate(90deg);
   }
   50% {
     transform: rotateY(360deg);
-    filter: hue-rotate(180deg);
   }
   75% {
     transform: rotateY(180deg);
-    filter: hue-rotate(270deg);
   }
   100% {
     transform: rotateY(360deg);
-    filter: hue-rotate(360deg);
   }
 }
 @keyframes rotate-hue {
   0 {
-    filter: hue-rotate(0deg); 
+    color: hsl(0, 100%, 50%);
   }
   25% {
-    filter: hue-rotate(90deg);
+    color: hsl(90, 100%, 50%);
   }
   50% {
-    filter: hue-rotate(180deg);
+    color: hsl(180, 100%, 50%);
   }
   75% {
-    filter: hue-rotate(270deg);
+    color: hsl(270, 100%, 50%);
   }
   100% {
-    filter: hue-rotate(360deg);
+    color: hsl(360, 100%, 50%);
   }
 }
 
