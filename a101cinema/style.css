@@ -72,6 +72,7 @@ body {
   color: white;
   animation: rotate-hue 6s both infinite;
   animation-timing-function: linear;
+  filter: drop-shadow(0 0 3vmin #FFFFFF);
 }
 #question_mark{
   font-family: arial;
@@ -84,6 +85,7 @@ body {
   animation: rotate 6s both infinite;
   animation-timing-function: linear;
   cursor: pointer;
+  filter: drop-shadow(0 0 3vmin #FFFFFF);
 }
 @keyframes rotate {
   0 {
