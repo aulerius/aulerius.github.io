@@ -6,97 +6,147 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>every person</title> 
+  
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js"></script>
 </head>
 <style>
-	  body{
-	  margin: 0;
-	  text-align: center;
-	}
-	#info{
-	  margin-bottom: 70px;
-	}
-	#banner{
-	  width: 100%;
-	  height: 300px;
-	  object-fit: cover;
-	}
-	#profile_pic{
-	  filter: drop-shadow(0px 1px 1px gray);
-	  margin-top: -80px;
-	}
-	#profile_pic img{
-	  width: 150px;
-	  clip-path: circle(50%);
-	}
-	#title{
-	  font-size: 2.4em;
-	  margin: 20px;
-	}
-	#description{
-	  font-size: 1.1em;
-	  margin: 30px;
-	}
-	#disclaimer{
-	  margin: 30px;
-	  font-size: 1.4em;
-	}
-	#person_container{
-	  max-width: 1400px;
-	  margin: auto;
-	  margin-top: 20px;
-	  display: flex;
-	  flex-wrap: wrap;
-	  flex-direction: row;
-	  align-items: center;
-	}
-	.person{
-	  width: 18%;
-	  margin: 1%;
-	}
-
-	@media screen and (max-width: 992px) {
-	  .person {width: 31%; }
-	}
-	@media screen and (max-width: 680px) {
-	  .person {width: 48%; }
-	}
 </style>
 <body>
-  <img id='banner' src="./banner.jpg"> <br>
-  <div id='info'>
-    <div id='profile_pic'> 
-      <img  src="./title_text.gif">
-    </div>
-    <h1 id='title'> every person </h1>
-    <p id='description'>
-      every person living in my sketchbooks <br>
-      or... <br>
-      every person I have ever met <br>
-      ...or could never meet <br>
-      ...or maybe a humble celebration of diverse human authenticity
-    </p>
-	
-	<h2 id='disclaimer'>
-	  Thank you for visiting ♡ <br>
-	...in the future this website may serve as a hub to enrich "every person" project and provide bonus material/interaction.
-	  </h2>
-  </div>
 
-  <div id='person_container'></div>
-  
-  <script>
-    person_container = document.getElementById('person_container');
+	<div id='person_container'>
 
-	for (y = 1; y < 29; y++) {
-		var a_img = document.createElement("a");
-		var img = document.createElement("img");
-		img.src = "https://aulerius.art/everyperson/" + ('00'+y).slice(-2) + ".gif";
-		a_img.classList.add('person');
-		a_img.href = "https://objkt.com/asset/versum_items/" + String(y);
-		person_container.appendChild(a_img);
-		a_img.appendChild(img);
-		img.style.width = "100%";
-}
-  </script>
+	  <div id='info'>
+		<div id='title_img'> 
+		  <img src="title_text.gif">
+		</div>
+		<p id='description'>
+		  every person living in my sketchbooks <br>
+		  or... <br>
+		  every person I have ever met <br>
+		  ...or could never meet <br>
+		  ...or maybe a humble celebration of diverse human authenticity
+		</p>
+		<div class="info_bot">
+		  <div class="external_links">
+		  <div class="link_button">
+			<a href="https://objkt.com/collection/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2iF">
+			<svg fill="black" width="100" height="100">
+			  <use href="#external_link_icon" />  
+			</svg>
+			<img src="third_party/objkt.png"></img>
+			</a>
+		  </div>
+
+		  <div class="link_button">
+			<a href="https://versum.xyz/user/tz1Vzq4UP11ni6H7GZ4UdyRWnUneLWcxkoh9/created">
+			<svg fill="black" width="100" height="100">
+			  <use href="#external_link_icon" />  
+			</svg>
+			<img src="third_party/versum.png"></img>
+			</a>
+		  </div>
+		  </div>
+		</div>
+		<input type="image" class="misc_button" id="about" src="q.gif" />
+	  </div>
+
+	</div>
+
+	<img id="thank-you" class="body_misc" src="thank-you.gif"> </img>
+
+	<div id="person_info">
+	  <!-- gets moved to appropiate person container upon opening a person view -->
+	  <div class="person_info_top">
+		<div class="external_links">
+
+		  <div class="link_button">
+		<a href = "">
+		<svg fill="black" width="100" height="100">
+		  <use href="#external_link_icon" />  
+		</svg>
+		<img src="third_party/objkt.png"></img>
+		 </a>
+		  </div>
+
+		</div>
+		<input type="image" class="person_exit misc_button" src="X.gif" />
+	  </div>
+	  <p class="person_text"></p>
+	</div>
+
+	<div id="curious_info">
+	  <!-- gets moved to appropiate person container (additional) upon opening a person view -->
+	  <div class="no_curious_text">nobody has been curious about this person yet...</div>
+	  <div class="curious_text">being curious about this person:</div>
+		<div class="link_button">
+		  <a href = "">
+		  <svg fill="black" width="100" height="100">
+		<use href="#external_link_icon" />  
+		  </svg>
+		  <img src="third_party/versum.png"></img>
+		   </a>
+		</div>
+		<input type="image" id="i_am_curious" class="misc_button" src="i-am-curious.gif" />
+	</div>
+
+
+	<div id="curious_display_template" class="curious_display">
+	  <!-- gets cloned to every person container and hidden/displayed appropiately -->
+	  <img class="question" src="q.gif"> </img>
+	  <img class="curious_img" src="curious-about/no-curious.jpg"> </img>
+	</div>
+
+
+	<div id="info_modal">
+	  <div id="about_info" class="modal_content">
+		<input type="image" class="modal_exit misc_button" src="X.gif" />
+		<div class="modal_content_part">
+		  <p><img src="about/about-reside.webp"></img> "every person" is an open ended series of peculiar animated people created by <a href="https://twitter.com/aulerius2">aulerius</a>, each minted as a single edition artwork on tezos blockchain (objkt.com collection).
+		<img src="about/about-curious.webp"></img> In addition, one may become curious about a particular person which prompts the author to look into them deeper and create a detailed illustration, minted on Versum.
+		  </p>
+		</div>
+		<div class="modal_content_part">
+		  <p><img src="about/about-request.webp"></img>To send a request of curiosity about a particular person, one must have that person token residing in their tezos adress. Upon completion, the Requester also receives an edition of that persons "curious about" illustration. (gifted!)
+	<img src="about/about-twitter.webp"></img>Currently you can arrange that by contacting the <a href="https://twitter.com/aulerius2">author</a> directly, however if all goes well, the plan is to setup UI for that, wallet sync, and visible queue of requests on this website. Wish me luck!
+		  </p>
+		</div>
+	  </div>
+
+	  <div id="curious_about_info" class="modal_content">
+		<input type="image" class="modal_exit misc_button" src="X.gif" />
+		<div class="modal_content_part">
+		  <p>To send a request of curiosity about a particular person, one must have that person token residing in their tezos adress. Upon completion, the Requester also receives an edition of that persons "curious about" illustration. (gifted!)
+		  </p>
+		  <div class="about_icon_row">
+		<img src="about/about-curious.webp"></img>
+		<img src="about/about-reside.webp"></img>
+		<img src="about/about-request.webp"></img>
+		<img src="about/about-draw.webp"></img>
+		<img src="about/about-blockchain.webp" style="height: 100%;"></img>
+		<img src="about/about-gift.webp"></img>
+		  </div>
+		</div>
+		<div class="modal_content_part">
+		  <p>Currently you can arrange that by contacting the <a href="https://twitter.com/aulerius2">author</a> directly, however if all goes well, the plan is to setup UI for that, wallet sync, and visible queue of requests on this website. Wish me luck!
+		  </p>
+		  <img src="about/about-twitter.webp" class="misc_img" style="height: 2.5em; margin-left: 10%;"></img>
+		  <img src="about/about-conversation.webp" class="misc_img" style="height: 6em; margin-right: 10%;"></img>
+		</div>
+	  </div>
+	</div>
+
+
+	<!-- external link svg icon -->
+	<svg style="display: none;" version="2.0">
+	  <defs>
+		<symbol id = "external_link_icon" viewBox="0 0 256 256">
+		  <style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:31;}</style>
+		  <polyline class="st0" points="222.65,157.34 222.65,240.99 15.34,240.99 15.34,33.69 99,33.69 "/>
+		  <line class="st0" x1="110.77" y1="144.53" x2="242.22" y2="13.07"/>
+		  <polyline class="st0" points="143.95,15.35 240.99,15.35 240.99,112.39 "/>
+		</symbol>
+	  </defs>
+	</svg>
 </body>
 </html>

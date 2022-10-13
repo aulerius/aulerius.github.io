@@ -1,0 +1,362 @@
+body{
+  position: absolute;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  overflow-x: hidden;
+  background-image: url("background.jpg");
+  font-family: serif;
+}
+.misc_button{
+  /*width: 2em;*/
+  cursor: pointer;
+  height: 2em;
+  margin: auto;
+}
+.external_links{
+  margin: auto;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20%;
+}
+.link_button{
+  cursor: pointer;
+  height: 1.2em;
+}
+.link_button img{
+  height: 100%;
+  width: auto;
+}
+.link_button svg{
+  height: 90%;
+  width: auto;
+}
+#thank-you {
+  position: relative;
+  display: block;
+  bottom: 1em;
+  height: 1.6em;
+  width: auto;
+  margin: auto;
+  margin-top: 1.4em;
+}
+
+/*pop up modal for about info and other potential user interactions*/
+#info_modal{
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal_exit{
+  position: absolute;
+  display: block;
+  width: 1.9rem;
+  height: 1.9rem;
+  top: 2.2%;
+  right: 2.4%; 
+  z-index: 999;
+}
+.modal_content{
+  background-image: url("dusty-empy-spread.webp");
+  background-size: cover;
+  background-size: 100% 100%;
+  position: relative;
+  margin: 10% auto;
+  width: 100vh;
+  font-size: 2.2vh;
+  height: auto;
+  aspect-ratio: 2147 / 1064;
+  display: none;
+}
+.modal_content_selected{
+  display: flex;
+}
+.modal_content_part{
+  flex: 50%;
+  width: 50%;
+  z-index: 200;
+  font-size: 100%;
+}
+.modal_content_part .misc_img{
+  display: block;
+  margin: auto;
+}
+.modal_content_part p{
+  white-space: pre-line;
+  text-align: left;
+  padding: 10%;
+  margin: 0;
+  font-size: 1em;
+}
+.modal_content_part p img{
+  height: 2.4em;
+}
+.about_icon_row{
+  display: flex;
+  width: 94%;
+  height: 3em;
+  margin: auto;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.about_icon_row img{
+  height: 76%;
+}
+/*main container for all persons and info element ------------------------ */
+#person_container{
+  --colums: 7;
+  --elem-width: calc(100%/var(--colums));
+  --elem-height: calc(98vw/var(--colums));
+  --elem-taller-ratio: 1; /*set in setup_persons()*/
+  --elem-taller-height: calc(var(--elem-height) * var(--elem-taller-ratio));
+  --persons-total-height: 1; /*set in setup_persons()*/
+  width: 100%;
+  height: calc(100vw / var(--colums) * var(--persons-total-height) / var(--colums));
+  align-items: center;  
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  position: relative;
+}
+
+/* info element for logo, text, links, appears first in the person container */
+#info{
+  width: var(--elem-width);
+  margin-bottom: calc(var(--elem-width)/6);
+  margin-top: calc(var(--elem-width)/6);
+}
+  #title_img img{
+    width: 70%;
+    margin: auto;
+  }
+  #banner{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+  #title{
+    font-size: 2.4em;
+    margin: 20px;
+  }
+  #description{
+    font-size: 1.1em;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 10%;
+  }
+  #about{
+    height: 3.5em;
+    margin-top: 2em;
+  }
+
+/*person container things ------------------------*/
+.person{
+  margin-top: calc(1%/var(--colums));;
+  width:  var(--elem-width);
+  height: var(--elem-height);
+  cursor: pointer;
+}
+  .hidden{
+    visibility: hidden;
+  }
+  .person_selected{
+    visibility: visible;
+    cursor: default;
+  }
+  .person_selected #person_info{
+    display: inline-block;
+  }
+  .person_img{
+    position: relative;
+    width: 99.5%;
+    aspect-ratio: 1;
+    background-color: hsl(0,0%,94%);
+  }
+
+/* additional contains info elements and curious about elements */
+.person_additional{
+  position: absolute;
+  transform: translateY(calc(var(--elem-height) * -1));
+  width: var(--elem-width);
+  z-index: 1;
+}
+
+#person_info{
+  position: relative;
+  width: 99%;
+  display: none;
+  z-index: 10;
+  min-height: var(--elem-height);
+}
+  .person_info_top, .info_bot{ /*info_bot is used in general info element */
+    width: 90%;
+    height: 2em;
+    display: flex;
+    margin: auto;
+  }
+  .person_text{
+    white-space: pre-line;
+    width: 94%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .person_info_left{
+    left: 102%;
+    text-align: left;
+    display: initial;
+  }
+  .person_info_left .person_info_top{
+    flex-direction: row;
+  }
+  .person_info_left .person_info_top .external_links{
+    justify-content: start;
+  }
+  .person_info_right{
+    right: 102%;
+    text-align: right;
+    display: initial;
+  }
+  .person_info_right .person_info_top{
+    flex-direction: row-reverse;
+  }
+  .person_info_right .person_info_top .external_links{
+    justify-content: end;
+  }
+  #person_info button{
+    cursor: pointer;
+    height: 100%;
+  }
+
+/* curious about elements ------------------------*/
+.curious{
+  display: none;
+  position: relative;
+  width: 100%;
+  top: calc(var(--elem-height)*0.98);
+  z-index: 1;
+}
+#curious_info{
+  display: none;
+  position: relative;
+  width: 95%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+}
+.curious_exists{
+  display: initial;
+}
+#curious_display_template{
+  display: none;
+}
+.curious_display{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.curious_img{
+  width: 100%;
+}
+.question{
+  position: absolute;
+  display: none;
+}
+#i_am_curious{ /*gif button to open up a modal */
+  height: 4em;
+  margin-right: 0;
+}
+.curious_exists #i_am_curious{
+  display: none;
+}
+.curious:not(.curious_exists) .link_button{
+  display: none;
+}
+.curious_exists .no_curious_text{
+  display: none;
+}
+.curious_exists .no_curious_text{
+  display: none;
+}
+.curious:not(.curious_exists) .curious_text{
+  display: none;
+}
+
+.person_right #curious_info{
+  display: flex;
+}
+.person_left #curious_info{
+  display: flex;
+}
+.curious_text, .no_curious_text{
+  font-size: 1.2em;
+  text-align: left;
+  flex: 0 0 70%;
+  font-style: italic;
+}
+.person_right .curious{
+  display: inline-block;
+  top: 0;
+  width: 200%;
+  transform: translateX(-50.05%);
+}
+.person_left .curious{
+  display: inline-block;
+  top: 0;
+  width: 200%;
+}
+
+@media screen and (max-width: 1600px) {
+  #person_container {--colums: 6;}
+}
+@media screen and (max-width: 1350px) {
+  #person_container {--colums: 5;}
+}
+@media screen and (max-width: 1050px) {
+  #person_container {--colums: 4;}
+}
+@media screen and (max-width: 800px) {
+  #person_container {--colums: 3;}
+  .modal_content{
+    background-image: url("dusty-empy-spread-v.webp");
+    max-height: 90vh;
+    width: auto;
+    aspect-ratio: 1064 / 2000;
+    margin: 5vh auto;
+    flex-wrap: wrap;
+    font-size: 2.4vh;
+  }
+  .modal_content_part{
+  flex: 100%;
+  width: 100%;
+  height: 50%;
+  }
+  .modal_content_part p{
+  padding: 6%;
+  }
+}
+@media screen and (max-aspect-ratio: 1/2) {
+  .modal_content{
+    max-height: 96vh;
+    margin: 2vh auto;
+    font-size: 4.6vw;
+  }
+}
+@media screen and (max-width: 660px) {
+  #person_container {--colums: 2;}
+}
