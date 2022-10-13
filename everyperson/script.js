@@ -2,22 +2,22 @@ const content_dir = "https://aulerius.art/everyperson/";
 const objkt_adress = "https://objkt.com/asset/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2iF/"; //leads to person token by id
 const versum_adress = "https://versum.xyz/token/versum/"; //leads to curious-about token by ITEM id
 
-const person_container = document.getElementById('person_container');
-const person_info = document.getElementById('person_info');
-const curious_info = document.getElementById('curious_info');
-const curious_display = document.getElementById('curious_display_template');
+const person_container = document.getElementById("person_container");
+const person_info = document.getElementById("person_info");
+const curious_info = document.getElementById("curious_info");
+const curious_display = document.getElementById("curious_display_template");
 const curious_aspect_ratio = 1.5625;
-const modal_element = document.getElementById('info_modal');
+const modal_element = document.getElementById("info_modal");
 
-const about_button = document.getElementById('about');
-const iamcurious_button = document.getElementById('i_am_curious');
+const about_button = document.getElementById("about");
+const iamcurious_button = document.getElementById("i_am_curious");
 
 const about_info = document.getElementById("about_info");
 const curious_about_info = document.getElementById("curious_about_info");
 
 let person_opened = null;
 var opened_modal = null;
-let person_side = 'left'; //either left or right
+let person_side = "left"; //either left or right
 let persons = [];
 
 //retrieving data about persons that lets it build person elements and set size for container
@@ -64,11 +64,11 @@ function setup_persons(persons){
       per_cont = document.createElement("div");
       per = document.createElement("img");
       per.src = content_dir + "persons/" + persons[y].filename;
-      per_cont.classList.add('person');
-      per.classList.add('person_img');
+      per_cont.classList.add("person");
+      per.classList.add("person_img");
       id = y;
       per_cont.id = id;
-      per.id = id + '_img'
+      per.id = id + "_img"
       randomize_look(per);
       person_container.appendChild(per_cont);
       per_cont.appendChild(per);
@@ -80,16 +80,16 @@ function setup_persons(persons){
       
       //adding "curious about" image or placehoder of it
       curious_cont = document.createElement("div");
-      curious_cont.classList.add('curious');
+      curious_cont.classList.add("curious");
       additional.appendChild(curious_cont);
       curious = curious_display.cloneNode(true);
-      curious.removeAttribute('id');
+      curious.removeAttribute("id");
       curious_cont.appendChild(curious);
     
       if (persons[y].curious_about_filename!=undefined){
-        curious.querySelector('.curious_img').src = content_dir + "lighter-load/curious-about/" + persons[y].curious_about_filename;
+        curious.querySelector(".curious_img").src = content_dir + "lighter-load/curious-about/" + persons[y].curious_about_filename;
         per_cont.style.height ="var(--elem-taller-height)";
-        curious_cont.classList.add('curious_exists');
+        curious_cont.classList.add("curious_exists");
       }
   }
 }
@@ -115,7 +115,7 @@ function randomize_look(dom){
 }
 
 function calculate_height(persons){
-  //estimates total height that's just enough to fit all persons
+  //estimates total height that"s just enough to fit all persons
   let p_amount = persons.length;
   let c_amount = 0;
   for (const person of persons){
@@ -125,42 +125,42 @@ function calculate_height(persons){
 }
 
 function assign_side(element,context){
-  return (element.getBoundingClientRect().x > context.innerWidth/2.1 ? 'right' : 'left');
+  return (element.getBoundingClientRect().x > context.innerWidth/2.1 ? "right" : "left");
 }
 
 function setup_person_events(parent_container){
-    parent_container.addEventListener('click', event => {
+    parent_container.addEventListener("click", event => {
       if(event.target.closest(".person")!=null){
         clicked_cont = event.target.closest(".person");
         person_data = persons[parseInt(clicked_cont.id)];
-        additional_cont = clicked_cont.querySelector('.person_additional')
-        curious_cont = clicked_cont.querySelector('.curious')
+        additional_cont = clicked_cont.querySelector(".person_additional")
+        curious_cont = clicked_cont.querySelector(".curious")
         if(person_opened==null){
           //hiding everything else
-          Array.from(document.querySelector('#person_container').children).forEach((elem) => {
-            elem.classList.add('hidden');
+          Array.from(document.querySelector("#person_container").children).forEach((elem) => {
+            elem.classList.add("hidden");
           });
-          Array.from(document.querySelectorAll('.body_misc')).forEach((elem) => {
-            elem.classList.add('hidden');
+          Array.from(document.querySelectorAll(".body_misc")).forEach((elem) => {
+            elem.classList.add("hidden");
           });
-          clicked_cont.classList.add('person_selected');
+          clicked_cont.classList.add("person_selected");
 
           //inserting person info element
           additional_cont.prepend(person_info);
 
           //assigning appropiate styles and info to info element
-          person_side = (clicked_cont.getBoundingClientRect().x > window.innerWidth/2.1) ? 'right' : 'left';
-          person_info.className = '';
-          person_info.classList.add('person_info_' + person_side);
-          clicked_cont.classList.add('person_' + person_side);
-          person_info.querySelector('.person_text').innerHTML = person_data.person_text;
-          person_info.querySelector('#person_info .person_info_top a').href = objkt_adress + persons[parseInt(clicked_cont.id)].token_id;
+          person_side = (clicked_cont.getBoundingClientRect().x > window.innerWidth/2.1) ? "right" : "left";
+          person_info.className = "";
+          person_info.classList.add("person_info_" + person_side);
+          clicked_cont.classList.add("person_" + person_side);
+          person_info.querySelector(".person_text").innerHTML = person_data.person_text;
+          person_info.querySelector("#person_info .person_info_top a").href = objkt_adress + persons[parseInt(clicked_cont.id)].token_id;
           
           //inserting curious info element, loading hq image
           curious_cont.prepend(curious_info)
           if (person_data.curious_about_filename!=undefined){
-            curious_cont.querySelector('.curious_img').src = content_dir + "curious-about/" +  person_data.curious_about_filename;
-            curious_cont.querySelector('.link_button a').href = versum_adress + person_data.curious_about_token_id;
+            curious_cont.querySelector(".curious_img").src = content_dir + "curious-about/" +  person_data.curious_about_filename;
+            curious_cont.querySelector(".link_button a").href = versum_adress + person_data.curious_about_token_id;
           }
           person_opened = clicked_cont;
         }
@@ -169,27 +169,27 @@ function setup_person_events(parent_container){
 }
 
 function setup_person_info_events(info){
-  info.addEventListener('click', event => {
-    if(event.target.className.includes('person_exit')){
+  info.addEventListener("click", event => {
+    if(event.target.className.includes("person_exit")){
       //upon exiting opened person view reset state of all persons, removes added classes
-      person_opened.classList.remove('person_selected');
-      person_opened.classList.remove('person_right');
-      person_opened.classList.remove('person_left');
-      Array.from(document.querySelectorAll('.hidden')).forEach((elem) => {
-        elem.classList.remove('hidden');
+      person_opened.classList.remove("person_selected");
+      person_opened.classList.remove("person_right");
+      person_opened.classList.remove("person_left");
+      Array.from(document.querySelectorAll(".hidden")).forEach((elem) => {
+        elem.classList.remove("hidden");
       });
       event.stopPropagation();
       
       //reset curious-about image to lighter-load version
       id = parseInt(person_opened.id);
       if (person_data.curious_about_filename!=undefined){
-        person_opened.querySelector('.curious_img').src = content_dir + "lighter-load/curious-about/" + persons[id].curious_about_filename;
+        person_opened.querySelector(".curious_img").src = content_dir + "lighter-load/curious-about/" + persons[id].curious_about_filename;
       }
       
       person_opened = null;
     };
     
-    if(event.target.className.includes('i_am_curious')){
+    if(event.target.className.includes("i_am_curious")){
       //pop up modal for i-am-curious menu
     }
     
