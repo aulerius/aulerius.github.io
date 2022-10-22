@@ -1,4 +1,4 @@
-const content_dir = "https://aulerius.art/everyperson/";
+const content_dir = "";
 const objkt_adress = "https://objkt.com/asset/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2iF/"; //leads to person token by id
 const versum_adress = "https://versum.xyz/token/versum/"; //leads to curious-about token by ITEM id
 
@@ -16,7 +16,7 @@ const about_info = document.getElementById("about_info");
 const curious_about_info = document.getElementById("curious_about_info");
 
 let person_opened = null;
-var opened_modal = null;
+let opened_modal = null;
 let person_side = "left"; //either left or right
 let persons = [];
 
@@ -62,16 +62,17 @@ function setup_persons(persons){
   for (y = 0; y < persons.length; y++) {
       //creating containers for each person, assigning imgs
       per_cont = document.createElement("div");
-      per = document.createElement("img");
-      per.src = content_dir + "persons/" + persons[y].filename;
-      per_cont.classList.add("person");
+	  per = document.createElement("img");
+	  per_cont.appendChild(per);
+	  per_cont.classList.add("person");
       per.classList.add("person_img");
+	  per.style.backgroundImage = "url(" + persons[y].filename + ".jpg);";
+      per.src = content_dir + "persons/" + persons[y].filename + ".gif";
       id = y;
       per_cont.id = id;
       per.id = id + "_img"
       randomize_look(per);
       person_container.appendChild(per_cont);
-      per_cont.appendChild(per);
       
       //adding container to hold all info seen after opening and "curious about" element
       additional = document.createElement("div");

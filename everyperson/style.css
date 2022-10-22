@@ -183,6 +183,7 @@ body{
     width: 99.5%;
     aspect-ratio: 1;
     background-color: hsl(0,0%,94%);
+	background-size: cover;
   }
 
 /* additional contains info elements and curious about elements */
@@ -336,13 +337,13 @@ body{
   #person_container {--colums: 3;}
   
   .modal_content{
-    background-image: url("dusty-empy-spread-v.webp");
-    max-height: 90vh;
-    width: auto;
-    aspect-ratio: 1064 / 2000;
-    margin: 5vh auto;
-    flex-wrap: wrap;
-    font-size: 2.5vh;
+		background-image: url("dusty-empy-spread-v.webp");
+		max-height: 90vh;
+		width: auto;
+		aspect-ratio: 1064 / 2000;
+		margin: 5vh auto;
+		flex-wrap: wrap;
+		font-size: 2.5vh;
 	}
   .modal_content_part{
 	  flex: 100%;
@@ -355,15 +356,15 @@ body{
 }
 @media screen and (max-aspect-ratio: 1/2) {
   .modal_content {
-    max-height: 96vh;
-	max-width: 99vw;
-    margin: 2vh auto;
-    font-size: 4.5vw;
+		max-height: 96vh;
+		max-width: 99vw;
+		margin: 2vh auto;
+		font-size: 4.5vw;
 	}
 }
 @media screen and (max-width: 660px) {
   #person_container {
-	--colums: 2;
-	font-size: 0.9em;
+		--colums: 2;
+		font-size: 0.9em;
 	}
 }
