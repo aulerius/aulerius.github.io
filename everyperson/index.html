@@ -20,13 +20,10 @@
 	<link rel="prefetch" href="dusty-empy-spread.webp"/>
 	<link rel="prefetch" href="dusty-empy-spread-v.webp"/>
 	
-
 </head>
 <style>
 </style>
 <body>
-
-
 
 	<div id="person_container">
 
@@ -62,6 +59,8 @@
 		  </div>
 		  </div>
 		</div>
+		<input type="image" id="curiosity_queue" class="misc_button" src="queue.gif"></input>
+		<br>
 		<input type="image" class="misc_button" id="about" src="q.gif" />
 	  </div>
 
@@ -84,19 +83,18 @@
 		  </div>
 
 		</div>
-		<input type="image" class="person_exit misc_button" src="X.gif" />
+		<input type="image" class="person_exit" src="X.gif" />
 	  </div>
 	  <p class="person_text"></p>
 	</div>
 
 	<div id="curious_info">
 	  <!-- gets moved to appropiate person container (additional) upon opening a person view -->
-	  <div class="no_curious_text">nobody has been curious about this person yet...</div>
-	  <div class="curious_text">being curious about this person:</div>
+	  <div id="curious_text">nobody has been curious about this person yet...</div>
 		<div class="link_button">
 		  <a href = "">
 		  <svg fill="black" width="100" height="100">
-		<use href="#external_link_icon" />  
+			<use href="#external_link_icon" />  
 		  </svg>
 		  <img src="third_party/versum.png"></img>
 		   </a>
@@ -110,27 +108,33 @@
 	  <img class="question" src="q.gif"> </img>
 	  <img class="curious_img" src="curious-about/no-curious.jpg"> </img>
 	</div>
+	
+	<div id="person_display_template" class="person_display">
+	  <!-- gets cloned to every person container, contains light static jpg and the actual gif-->
+	  <img class="person_lighter_img"</img>
+	  <img class="person_img" </img>
+	</div>
 
 
 	<div id="info_modal">
 	  <div id="about_info" class="modal_content">
-		<input type="image" class="modal_exit misc_button" src="X.gif" />
+		<input type="image" class="exit" src="X.gif" />
 		<div class="modal_content_part">
 		  <p><img src="about/about-reside.webp"></img> "every person" is an open ended series of peculiar animated people created by <a href="https://twitter.com/aulerius2">aulerius</a>, each minted as a single edition artwork on tezos blockchain (objkt.com collection).
 		<img src="about/about-curious.webp"></img> In addition, one may become curious about a particular person which prompts the author to look into them deeper and create a detailed illustration, minted on Versum.
 		  </p>
 		</div>
 		<div class="modal_content_part">
-		  <p><img src="about/about-request.webp"></img>To send a request of curiosity about a particular person, one must have that person token residing in their tezos adress. Upon completion, the Requester also receives an edition of that persons "curious about" illustration. (gifted!)
+		  <p><img src="about/about-request.webp"></img>To send a request of curiosity about a particular person, one must have that person token residing in their tezos adress and keep it so until completion of the request. Upon completion, the Requester also receives an edition of that persons "curious about" illustration. (gifted!)
 	<img src="about/about-twitter.webp"></img>Currently you can arrange that by contacting the <a href="https://twitter.com/aulerius2">author</a> directly, however if all goes well, the plan is to setup UI for that, wallet sync, and visible queue of requests on this website. Wish me luck!
 		  </p>
 		</div>
 	  </div>
 
 	  <div id="curious_about_info" class="modal_content">
-		<input type="image" class="modal_exit misc_button" src="X.gif" />
+		<input type="image" class="exit" src="X.gif" />
 		<div class="modal_content_part">
-		  <p>To send a request of curiosity about a particular person, one must have that person token residing in their tezos adress. Upon completion, the Requester also receives an edition of that persons "curious about" illustration. (gifted!)
+		  <p>To send a request of curiosity about a particular person, one must have that person token residing in their tezos adress and keep it so until completion of the request. Upon completion, the Requester also receives an edition of that persons "curious about" illustration. (gifted!)
 		  </p>
 		  <div class="about_icon_row">
 		<img src="about/about-curious.webp"></img>
@@ -148,6 +152,15 @@
 		  <img src="about/about-conversation.webp" class="misc_img" style="height: 7em; margin-right: 10%;"></img>
 		</div>
 	  </div>
+	</div>
+	
+	<div id="bottom_panel">
+		<div id="curiosity_info">
+			<input type="image" class="exit" src="X.gif" />
+			<div id="queue_text">
+				there are 0 persons in the queue of curiosity
+			</div>
+		</div>
 	</div>
 
 

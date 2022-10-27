@@ -15,18 +15,18 @@ body{
 }
 .external_links{
   margin: auto;
-  width: 90%;
+  width: 92%;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  gap: 20%;
 }
 .link_button{
   cursor: pointer;
   height: 1.2em;
+  padding: 0.4em;
 }
 .link_button img{
   height: 100%;
@@ -40,13 +40,13 @@ body{
   position: relative;
   display: block;
   bottom: 1em;
-  height: 1.6em;
+  height: 1.8em;
   width: auto;
   margin: auto;
   margin-top: 1.4em;
 }
 
-/*pop up modal for about info and other potential user interactions*/
+/*pop ups for info and user interactions*/
 #info_modal{
   display: none;
   position: fixed;
@@ -57,14 +57,18 @@ body{
   height: 100vh;
   background-color: rgba(0,0,0,0.4);
 }
-.modal_exit{
+.exit{
   position: absolute;
-  display: block;
-  width: 1.8rem;
-  height: 1.8rem;
-  top: 2.8%;
-  right: 3%; 
-  z-index: 999;
+	display: block;
+	width: 1.8rem;
+	height: 1.8rem;
+	top: -4.4vh;
+	right: 3%; 
+	z-index: -10;
+	padding: 0.6rem 0.5rem 1.5rem 0.5rem;
+	background-image: url("about/stickout.webp");
+	background-size: cover;
+	background-size: 100% 100%;
 }
 .modal_content{
   background-image: url("dusty-empy-spread.webp");
@@ -113,6 +117,47 @@ body{
 .about_icon_row img{
   height: 76%;
 }
+/*curiosity info popup panel--------*/
+#bottom_panel{
+	--inner_width: 44vh;
+	position: fixed;
+	pointer-events: none;
+	bottom: 0;
+	width: 100%;
+	height: 10vh;
+	z-index: 100;
+	display: none;
+}
+#curiosity_info:before{
+	content: "";
+	position: absolute;
+	display: block;
+	background-image: url("dusty-empy-spread-v.webp");
+	background-size: 100% auto;
+	height: 100%;
+	top: 0;
+	margin: auto;
+	width: var(--inner_width);
+	z-index: -5;
+	left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+#curiosity_info{
+	pointer-events: auto;
+	position: relative;
+	width: var(--inner_width);
+	height: 100%;
+	box-sizing: border-box;
+	top: 0;
+	margin: auto;
+	font-size: 2.6vh;
+	padding: 2vh;
+	filter: drop-shadow(0 0 calc(var(--inner_width)*0.08) rgba(0, 0, 0, 0.25));
+}
+
 /*main container for all persons and info element ------------------------ */
 #person_container{
   --colums: 7;
@@ -141,11 +186,6 @@ body{
     width: 70%;
     margin: auto;
   }
-  #banner{
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-  }
   #title{
     font-size: 2.4em;
     margin: 20px;
@@ -157,8 +197,14 @@ body{
     margin-bottom: 10%;
   }
   #about{
-    height: 3.5em;
-    margin-top: 2em;
+    height: 3.75em;
+	margin: auto;
+    margin-top: 1em;
+  }
+  #curiosity_queue{
+	height: 5.2em;
+	margin: auto;
+    margin-top: 1em;
   }
 
 /*person container things ------------------------*/
@@ -178,14 +224,44 @@ body{
   .person_selected #person_info{
     display: inline-block;
   }
-  .person_img{
-    position: relative;
+  #person_display_template{
+	  display: none;
+  }
+  .person_display{
+	position: relative;
     width: 99.5%;
     aspect-ratio: 1;
     background-color: hsl(0,0%,94%);
-	background-size: cover;
   }
-
+  .person_img,.person_lighter_img{
+    position: absolute;
+    width: 100%;
+	left: 0;
+  }
+  .faded .person_img{
+	  display: none;
+  }
+  .person:not(.faded) .person_lighter_img{
+	  display: none;
+  }
+  
+  .person.faded .person_display::after{
+	content: "";
+	position: absolute;
+    width: 100%;
+	height: 100%;
+	left: 0;
+	background-color: rgba(240,240,240,0.65);
+  }
+  .person.faded .curious_display::after{
+	content: "";
+	position: absolute;
+    width: 100%;
+	height: 100%;
+	left: 0;
+	background-color: rgba(240,240,240,0.65);  
+  }
+	  
 /* additional contains info elements and curious about elements */
 .person_additional{
   position: absolute;
@@ -200,8 +276,9 @@ body{
   display: none;
   z-index: 10;
   min-height: var(--elem-height);
+  top: calc(var(--elem-height)*0.05);
 }
-  .person_info_top, .info_bot{ /*info_bot is used in general info element */
+  .person_info_top{ /*info_bot is used in general info element */
     width: 90%;
     height: 2em;
     display: flex;
@@ -259,7 +336,7 @@ body{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 2.5em;
-	margin-bottom: 1em;
+	margin-bottom: 0.7em;
 }
 .curious_exists{
   display: initial;
@@ -268,10 +345,9 @@ body{
   display: none;
 }
 .curious_display{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1 / 1.5625;
 }
 .curious_img{
   width: 100%;
@@ -287,16 +363,10 @@ body{
 .curious_exists #i_am_curious{
   display: none;
 }
+.in_queue #i_am_curious{
+  display: none;
+}
 .curious:not(.curious_exists) .link_button{
-  display: none;
-}
-.curious_exists .no_curious_text{
-  display: none;
-}
-.curious_exists .no_curious_text{
-  display: none;
-}
-.curious:not(.curious_exists) .curious_text{
   display: none;
 }
 
@@ -306,8 +376,8 @@ body{
 .person_left #curious_info{
   display: flex;
 }
-.curious_text, .no_curious_text{
-  font-size: 1.2em;
+#curious_text{
+  font-size: 1.3em;
   text-align: left;
   flex: 0 0 70%;
   font-style: italic;
@@ -333,7 +403,7 @@ body{
 @media screen and (max-width: 1050px) {
   #person_container {--colums: 4;}
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
   #person_container {--colums: 3;}
   
   .modal_content{
@@ -343,7 +413,7 @@ body{
 		aspect-ratio: 1064 / 2000;
 		margin: 5vh auto;
 		flex-wrap: wrap;
-		font-size: 2.5vh;
+		font-size: 2.2vh;
 	}
   .modal_content_part{
 	  flex: 100%;
@@ -358,7 +428,7 @@ body{
   .modal_content {
 		max-height: 96vh;
 		max-width: 99vw;
-		margin: 2vh auto;
+		margin: 4.5vh auto;
 		font-size: 4.5vw;
 	}
 }
