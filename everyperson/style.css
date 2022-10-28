@@ -61,8 +61,8 @@ body{
   position: absolute;
 	display: block;
 	width: 1.8rem;
-	height: 1.8rem;
-	top: -4.4vh;
+	height: 1.9rem;
+	top: -4.2vh;
 	right: 3%; 
 	z-index: -10;
 	padding: 0.6rem 0.5rem 1.5rem 0.5rem;
@@ -166,6 +166,7 @@ body{
   --elem-taller-ratio: 1; /*set in setup_persons()*/
   --elem-taller-height: calc(var(--elem-height) * var(--elem-taller-ratio));
   --persons-total-height: 1; /*set in setup_persons()*/
+  --queue-filter: none;
   width: 100%;
   height: calc(100vw / var(--colums) * var(--persons-total-height) / var(--colums));
   align-items: center;  
@@ -253,6 +254,22 @@ body{
 	left: 0;
 	background-color: rgba(240,240,240,0.65);
   }
+  .in_queue::after{
+	/*content: attr(data-queue_pos);*/
+	content: "1";
+	display: var(--queue-filter);
+	position: relative;
+	text-align: center;
+	font-size: calc(var(--elem-height)*0.17);
+	min-width: calc(var(--elem-height)*0.19);
+	width: fit-content;
+	border-radius: calc(var(--elem-height)*0.4);
+	background-color: rgba(255,255,255,1);
+	z-index: 100;
+	margin-left: 76%;
+	bottom: 26%;
+	box-shadow: 0 2px 10px  rgba(0,0,0,0.2);
+  }
   .person.faded .curious_display::after{
 	content: "";
 	position: absolute;
@@ -261,6 +278,7 @@ body{
 	left: 0;
 	background-color: rgba(240,240,240,0.65);  
   }
+  
 	  
 /* additional contains info elements and curious about elements */
 .person_additional{

@@ -3,6 +3,7 @@ const objkt_adress = "https://objkt.com/asset/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2
 const versum_adress = "https://versum.xyz/token/versum/"; //leads to curious-about token by ITEM id
 
 const person_container = document.getElementById("person_container");
+person_container.dataset.queue_pos = "veik blet"
 const person_info = document.getElementById("person_info");
 const person_display = document.getElementById("person_display_template");
 const curious_info = document.getElementById("curious_info");
@@ -26,6 +27,7 @@ let opened_modal = null;
 let person_side = "left"; //either left or right
 let persons = []; //array of objects containing all metadata for each person
 let requests_amount = 0;
+
 
 
 //retrieving data about persons that lets it build person elements and set size for container
@@ -76,6 +78,7 @@ window.onclick = function(event) {
 //open curiosity queue popup panel, fade persons
 curiosity_button.onclick = function(event) {
 	bottom_panel.style.display = "revert";
+	person_container.style.setProperty("--queue-filter", "block");
 	Array.from(person_container.querySelectorAll(".person:not(.in_queue)")).forEach((elem) => {
         elem.classList.add("faded");
 	});
@@ -85,6 +88,7 @@ curiosity_button.onclick = function(event) {
 //close popup panel, unfade
 function curiosity_close(){
 	bottom_panel.style.display = "none";
+	person_container.style.setProperty("--queue-filter", "none");
 	Array.from(person_container.querySelectorAll(".faded")).forEach((elem) => {
         elem.classList.remove("faded");
 	});
@@ -105,10 +109,12 @@ function setup_persons(persons){
 	  per.querySelector(".person_img").src = content_dir + "persons/" + persons[y].filename + ".gif";
 	  per.querySelector(".person_lighter_img").src = content_dir + "lighter-load/persons/" + persons[y].filename + ".jpg";
       id = y;
-      per_cont.id = id;
-      per.id = id + "_person_display"
+      per_cont.id = "person_"+id;
+      //per.id = id + "_person_display"
       randomize_look(per);
       person_container.appendChild(per_cont);
+	  
+	  
       
       //adding container to hold all info seen after opening and "curious about" element
       additional = document.createElement("div");
@@ -170,7 +176,7 @@ function setup_person_events(parent_container){
       if(event.target.closest(".person")!=null){
 		curiosity_close();
         clicked_cont = event.target.closest(".person");
-        person_data = persons[parseInt(clicked_cont.id)];
+        person_data = persons[parseInt(clicked_cont.id.slice(7))];
         additional_cont = clicked_cont.querySelector(".person_additional")
         curious_cont = clicked_cont.querySelector(".curious")
         if(person_opened==null){
@@ -192,7 +198,7 @@ function setup_person_events(parent_container){
           person_info.classList.add("person_info_" + person_side);
           clicked_cont.classList.add("person_" + person_side);
           person_info.querySelector(".person_text").innerHTML = person_data.person_text;
-          person_info.querySelector("#person_info .person_info_top a").href = objkt_adress + persons[parseInt(clicked_cont.id)].token_id;
+          person_info.querySelector("#person_info .person_info_top a").href = objkt_adress + person_data.token_id;
           
 		  //assigning correct curious text
 		  curious_text.innerHTML = format_curious_text(person_data);
@@ -222,7 +228,7 @@ function setup_person_info_events(info){
       event.stopPropagation();
       
       //reset curious-about image to lighter-load version
-      id = parseInt(person_opened.id);
+      id = parseInt(person_opened.id.slice(7));
       if (person_data.curious_about_filename!=undefined){
         person_opened.querySelector(".curious_img").src = content_dir + "lighter-load/curious-about/" + persons[id].curious_about_filename;
       }
@@ -250,10 +256,10 @@ function process_curiosity_data(data){
 			persons[id_match] = temp;
 			if(persons[id_match].curious_about_token_id == undefined){
 				requests_amount += 1;
-				per = document.getElementById(id_match);
+				per = document.getElementById('person_'+id_match);
 				per.classList.add("in_queue");
 				//also append request data to global persons object array
-				persons[id_match].queue_pos = requests_amount;
+				per.dataset.queue_pos = requests_amount;
 			}
 			//console.log(JSON.stringify(persons[id_match]));
 		}
