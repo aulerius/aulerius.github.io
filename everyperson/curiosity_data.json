@@ -13,6 +13,12 @@
 		"requestor": "SELF",
 		"status": "fulfiled",
 		"message": "chosen by author, gifted to all holders"
+	},
+	{
+		"token_id": 0,
+		"request_date": "2022-10-30",
+		"requestor": "test",
+		"status": "held-valid"
 	}
 	]
 }
