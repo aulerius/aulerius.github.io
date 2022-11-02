@@ -254,9 +254,8 @@ body{
 	left: 0;
 	background-color: rgba(240,240,240,0.65);
   }
-  .in_queue::after{
-	/*content: attr(data-queue_pos);*/
-	content: "1";
+  .person.in_queue::after{
+	content: attr(data-queue_pos);
 	display: var(--queue-filter);
 	position: relative;
 	text-align: center;
@@ -362,6 +361,20 @@ body{
 #curious_display_template{
   display: none;
 }
+#queue_pos{
+	display: none;
+	flex: 0 0 30%;
+	justify-content: end;
+	text-align: right;
+	align-items: center;
+}
+#queue_pos_number{
+	font-size: 2.4em;
+}
+#queue_post_text{
+	margin-right: 10%;
+	font-size: 1.2em;
+}
 .curious_display{
 	position: relative;
 	width: 100%;
@@ -377,6 +390,9 @@ body{
 #i_am_curious{ /*gif button to open up a modal */
   height: 4em;
   margin-right: 0;
+}
+.in_queue #queue_pos{
+  display: flex;
 }
 .curious_exists #i_am_curious{
   display: none;

@@ -3,12 +3,12 @@ const objkt_adress = "https://objkt.com/asset/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2
 const versum_adress = "https://versum.xyz/token/versum/"; //leads to curious-about token by ITEM id
 
 const person_container = document.getElementById("person_container");
-person_container.dataset.queue_pos = "veik blet"
 const person_info = document.getElementById("person_info");
 const person_display = document.getElementById("person_display_template");
 const curious_info = document.getElementById("curious_info");
 const curious_display = document.getElementById("curious_display_template");
 const curious_text = document.getElementById("curious_text");
+const queue_pos_number = document.getElementById("queue_pos_number");
 const curious_aspect_ratio = 1.5625;
 const modal_element = document.getElementById("info_modal");
 
@@ -16,10 +16,13 @@ const about_button = document.getElementById("about");
 const iamcurious_button = document.getElementById("i_am_curious");
 const curiosity_button = document.getElementById("curiosity_queue");
 
+//content for modal
 const about_info = document.getElementById("about_info");
 const curious_about_info = document.getElementById("curious_about_info");
-const curiosity_info = document.getElementById("curiosity_info");
+
+//bottom panel
 const bottom_panel = document.getElementById("bottom_panel");
+const curiosity_info = document.getElementById("curiosity_info");
 const queue_text = document.getElementById("queue_text");
 
 let person_opened = null;
@@ -51,19 +54,21 @@ fetch(content_dir + "person_data.json")
   })
   .catch(err => console.log(err));
 
-//open modal on questionmark click
-about_button.addEventListener("click", function(){
-  modal_element.style.display = "block";
-  opened_modal = about_info;
-  opened_modal.classList.add("modal_content_selected");
-});
-//open modal on curiousabout click
-iamcurious_button.addEventListener("click", function(){
-  modal_element.style.display = "block";
-  opened_modal = curious_about_info;
-  opened_modal.classList.add("modal_content_selected");
-});
-//close when clicked anywhere outside or on X exit button
+//open modal on specific button clicks and select appropiate content
+about_button.addEventListener("click", modal_open);
+iamcurious_button.addEventListener("click", modal_open);
+
+function modal_open(event){
+	modal_element.style.display = "block";
+	if (event.target == about_button){
+		opened_modal = about_info;
+	}
+	else if(event.target == iamcurious_button){
+		opened_modal = curious_about_info;
+	}
+	opened_modal.classList.add("modal_content_selected");
+}
+//close modal when clicked anywhere outside or on X exit button
 window.onclick = function(event) {
   console.log(String(event.target));
   if (event.target == modal_element || event.target.classList.contains("exit")) {
@@ -173,44 +178,46 @@ function assign_side(element,context){
 
 function setup_person_events(parent_container){
     parent_container.addEventListener("click", event => {
-      if(event.target.closest(".person")!=null){
+      if(event.target.closest(".person")!=null && person_opened==null){
 		curiosity_close();
-        clicked_cont = event.target.closest(".person");
-        person_data = persons[parseInt(clicked_cont.id.slice(7))];
-        additional_cont = clicked_cont.querySelector(".person_additional")
-        curious_cont = clicked_cont.querySelector(".curious")
-        if(person_opened==null){
-          //hiding everything else
-          Array.from(document.querySelector("#person_container").children).forEach((elem) => {
-            elem.classList.add("hidden");
-          });
-          Array.from(document.querySelectorAll(".body_misc")).forEach((elem) => {
-            elem.classList.add("hidden");
-          });
-          clicked_cont.classList.add("person_selected");
+		clicked_cont = event.target.closest(".person");
+		person_data = persons[parseInt(clicked_cont.id.slice(7))];
+		additional_cont = clicked_cont.querySelector(".person_additional")
+		curious_cont = clicked_cont.querySelector(".curious")
+		
+		//hiding everything else
+		Array.from(document.querySelector("#person_container").children).forEach((elem) => {
+			elem.classList.add("hidden");
+		});
+		Array.from(document.querySelectorAll(".body_misc")).forEach((elem) => {
+			elem.classList.add("hidden");
+		});
+		clicked_cont.classList.add("person_selected");
 
-          //inserting person info element
-          additional_cont.prepend(person_info);
+		//inserting person info element
+		additional_cont.prepend(person_info);
 
-          //assigning appropiate styles and info to info element
-          person_side = (clicked_cont.getBoundingClientRect().x > window.innerWidth/2.1) ? "right" : "left";
-          person_info.className = "";
-          person_info.classList.add("person_info_" + person_side);
-          clicked_cont.classList.add("person_" + person_side);
-          person_info.querySelector(".person_text").innerHTML = person_data.person_text;
-          person_info.querySelector("#person_info .person_info_top a").href = objkt_adress + person_data.token_id;
-          
-		  //assigning correct curious text
-		  curious_text.innerHTML = format_curious_text(person_data);
-		  
-          //inserting curious info element, loading hq image
-          curious_cont.prepend(curious_info)
-          if (person_data.curious_about_filename!=undefined){
-            curious_cont.querySelector(".curious_img").src = content_dir + "curious-about/" +  person_data.curious_about_filename;
-            curious_cont.querySelector(".link_button a").href = versum_adress + person_data.curious_about_token_id;
-          }
-          person_opened = clicked_cont;
-        }
+		//assigning appropiate styles and info to info element
+		person_side = (clicked_cont.getBoundingClientRect().x > window.innerWidth/2.1) ? "right" : "left";
+		person_info.className = "";
+		person_info.classList.add("person_info_" + person_side);
+		clicked_cont.classList.add("person_" + person_side);
+		person_info.querySelector(".person_text").innerHTML = person_data.person_text;
+		person_info.querySelector("#person_info .person_info_top a").href = objkt_adress + person_data.token_id;
+
+		//assigning correct curious text
+		curious_text.innerHTML = format_curious_text(person_data);
+
+		//inserting curious info element, loading hq image
+		curious_cont.prepend(curious_info)
+		if (person_data.curious_about_filename!=undefined){
+			curious_cont.querySelector(".curious_img").src = content_dir + "curious-about/" +  person_data.curious_about_filename;
+			curious_cont.querySelector(".link_button a").href = versum_adress + person_data.curious_about_token_id;
+		}
+		if (clicked_cont.dataset.queue_pos!=undefined){
+			queue_pos_number.innerHTML = clicked_cont.dataset.queue_pos;
+		}
+		person_opened = clicked_cont;
       }
     });
 }

@@ -13,6 +13,20 @@
 		"requestor": "SELF",
 		"status": "fulfiled",
 		"message": "chosen by author, gifted to all holders"
+	},
+	{
+		"token_id": 27,
+		"request_date": "2022-11-02T14:07Z",
+		"requestor": "Chris Randall",
+		"requestor_twitter": "chrisrandallar1",
+		"status": "held-valid"
+	},
+	{
+		"token_id": 0,
+		"request_date": "2022-11-02T14:12Z",
+		"requestor": "ariel",
+		"requestor_twitter": "ingenieroariel",
+		"status": "held-valid"
 	}
 	]
 }
