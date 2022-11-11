@@ -25,9 +25,10 @@ const bottom_panel = document.getElementById("bottom_panel");
 const curiosity_info = document.getElementById("curiosity_info");
 const queue_text = document.getElementById("queue_text");
 
-let person_opened = null;
-let opened_modal = null;
-let person_side = "left"; //either left or right
+let person_opened;
+let opened_modal;
+let display_filter;
+let person_side; //either left or right
 let persons = []; //array of objects containing all metadata for each person
 let requests_amount = 0;
 
@@ -38,11 +39,12 @@ fetch(content_dir + "person_data.json")
   .then(response => response.json())
   .then(json => {
     persons = json.persons;
-    shuffle(persons);
-    setup_persons(persons);
     var total_height = calculate_height(persons);
     person_container.style.setProperty("--elem-taller-ratio", 1+curious_aspect_ratio);
     person_container.style.setProperty("--persons-total-height", total_height*1.1+2);
+	shuffle(persons);
+	setup_persons(persons);
+	document.getElementById("thank-you").style.display = 'initial';
     setup_person_events(person_container);
     setup_person_info_events(person_info);
 	
@@ -57,6 +59,11 @@ fetch(content_dir + "person_data.json")
 //open modal on specific button clicks and select appropiate content
 about_button.addEventListener("click", modal_open);
 iamcurious_button.addEventListener("click", modal_open);
+curiosity_button.addEventListener("click", filter_open);
+//randomize look of misc buttons
+Array.from(document.querySelectorAll(".misc_button")).forEach((elem) => {
+        randomize_look(elem, rnd_factor = 0.2, shadow_str = 0.35, shadow_spr = 5, z_rnd = false);
+	});
 
 function modal_open(event){
 	modal_element.style.display = "block";
@@ -80,15 +87,24 @@ window.onclick = function(event) {
 	curiosity_close();
   }
 }
-//open curiosity queue popup panel, fade persons
-curiosity_button.onclick = function(event) {
-	bottom_panel.style.display = "revert";
-	person_container.style.setProperty("--queue-filter", "block");
-	Array.from(person_container.querySelectorAll(".person:not(.in_queue)")).forEach((elem) => {
-        elem.classList.add("faded");
-	});
-	queue_text.innerHTML = format_queue_text(requests_amount);
-	
+//open panels and make appropiate changes according to filter
+//filters so far: queue of curiosity
+function filter_open(event){
+	if (event.target == curiosity_button){
+		if(display_filter=="curiosity"){
+			curiosity_close(); //close if already opened
+		}
+		else {
+			bottom_panel.style.display = "revert";
+			person_container.style.setProperty("--queue-filter", "block");
+			Array.from(person_container.querySelectorAll(".person:not(.in_queue)")).forEach((elem) => {
+				elem.classList.add("faded");
+			});
+			queue_text.innerHTML = format_queue_text(requests_amount);
+			
+			display_filter = "curiosity";
+		}
+	}
 }
 //close popup panel, unfade
 function curiosity_close(){
@@ -97,7 +113,10 @@ function curiosity_close(){
 	Array.from(person_container.querySelectorAll(".faded")).forEach((elem) => {
         elem.classList.remove("faded");
 	});
+	display_filter = undefined;
 }
+
+
 
 
 function setup_persons(persons){
@@ -151,15 +170,17 @@ function shuffle(array){
     }
 }
 
-function randomize_look(dom){
-  //add randomized transforms and shadows
-  dom.style.boxShadow = 
-    (Math.random()-0.5)*0.3 + "rem " +
-    Math.random()*0.35 + "rem " +
-    0.5 + "rem " + 
-    "rgba(0, 0, 0, 0.2)";
-  dom.style.transform = "rotate(" + (Math.random()-0.5)*6 + "deg)";
-  dom.style.zIndex = Math.floor(Math.random()*50 + 2);
+function randomize_look(dom, rnd_factor = 0.3, shadow_str = 0.2, shadow_spr = 15, z_rnd = true){
+	//add randomized transforms and shadows
+	dom.style.boxShadow = 
+		`${((Math.random()-0.5)*rnd_factor).toFixed(2)}rem
+		${(Math.random()*rnd_factor*1.2+0.05).toFixed(2)}rem
+		${shadow_spr}px 
+		rgba(0, 0, 0, ${shadow_str})`;
+	dom.style.transform = `rotate( ${((Math.random()-0.5)*rnd_factor*20).toFixed(2)}deg)`;
+	if(z_rnd){
+		dom.style.zIndex = Math.floor(Math.random()*50 + 2);
+	}
 }
 
 function calculate_height(persons){
@@ -282,7 +303,7 @@ function format_queue_text(amount){
 		return "there is currenty 1 person in the queue of curiosity";
 	}
 	else{
-		return "there are currenty " + amount + " persons in the queue of curiosity";
+		return `there are currenty ${amount} persons in the queue of curiosity`;
 	}
 }
 
@@ -290,7 +311,7 @@ function format_curious_text(data){
 	console.log(data);
 	if(data.curious_about_token_id!=undefined){
 		if (data.requestor != "SELF"){
-			return data.requestor + " was curious about this person:";
+			return `${data.requestor} was curious about this person:`;
 		}
 		else {
 			return "being curious about this person:";
@@ -298,7 +319,7 @@ function format_curious_text(data){
 	}
 	else if(data.status != undefined){
 		date = new Date(data.request_date);
-		return data.requestor + " has been curious about this person since " + date.toLocaleDateString();
+		return `${data.requestor} has been curious about this person since ${date.toLocaleDateString()}`;
 	}
 	else{	
 		return "nobody has been curious about this person yet...";

@@ -10,8 +10,17 @@ body{
 .misc_button{
   /*width: 2em;*/
   cursor: pointer;
-  height: 2em;
+  height: 2.2em;
   margin: auto;
+  background-image: url("background.jpg");
+  padding: 0.2em;
+  border-radius: 0.25em;
+}
+.hover_button:hover{
+	transform: scale(1.07);
+}
+.hover_button:hover .misc_button{
+	box-shadow: rgba(0, 0, 0, 0.25) 0 0.35rem 15px !important;
 }
 .external_links{
   margin: auto;
@@ -38,7 +47,7 @@ body{
 }
 #thank-you {
   position: relative;
-  display: block;
+  display: none;
   bottom: 1em;
   height: 1.8em;
   width: auto;
@@ -69,6 +78,9 @@ body{
 	background-image: url("about/stickout.webp");
 	background-size: cover;
 	background-size: 100% 100%;
+}
+.exit:hover{
+	transform: scale(1.1);
 }
 .modal_content{
   background-image: url("dusty-empy-spread.webp");
@@ -244,6 +256,14 @@ body{
   }
   .person:not(.faded) .person_lighter_img{
 	  display: none;
+  }
+  .person:not(.person_selected):hover .person_img{
+	  transform: scale(1.05);
+	  
+  }
+  .person:not(.person_selected):not(.faded):hover .person_display{
+	  z-index: 99 !important;
+	  box-shadow: rgba(0, 0, 0, 0.25) 0 0.35rem 25px 3px !important;
   }
   
   .person.faded .person_display::after{

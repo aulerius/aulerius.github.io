@@ -19,6 +19,7 @@
 		"request_date": "2022-11-02T14:07Z",
 		"requestor": "Chris Randall",
 		"requestor_twitter": "chrisrandallar1",
+		"requestor_wallet": "tz1ibTknNagJCgQPgcbPvJhpSyS5vxgdyFt4",
 		"status": "held-valid"
 	},
 	{
@@ -26,6 +27,7 @@
 		"request_date": "2022-11-02T14:12Z",
 		"requestor": "ariel",
 		"requestor_twitter": "ingenieroariel",
+		"requestor_wallet": "tz1g2oHH1JJMhat5ifDVq3T4oUeJB9Qw1MA7",
 		"status": "held-valid"
 	}
 	]
