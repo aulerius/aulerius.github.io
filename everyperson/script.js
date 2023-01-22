@@ -2,6 +2,7 @@ const content_dir = "https://aulerius.art/everyperson/";
 const objkt_adress = "https://objkt.com/asset/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2iF/"; //leads to person token by id
 const versum_adress = "https://versum.xyz/token/versum/"; //leads to curious-about token by ITEM id
 
+const loading_display = document.getElementById("loading_display");
 const person_container = document.getElementById("person_container");
 const person_info = document.getElementById("person_info");
 const person_display = document.getElementById("person_display_template");
@@ -44,7 +45,13 @@ fetch(content_dir + "person_data.json")
     person_container.style.setProperty("--persons-total-height", total_height*1.1+2);
 	shuffle(persons);
 	setup_persons(persons);
+	
+	loading_display.style.display = "none";
+	Array.from(document.querySelectorAll(".loading")).forEach((elem) => {
+				elem.classList.remove("loading");
+			});
 	document.getElementById("thank-you").style.display = 'initial';
+	
     setup_person_events(person_container);
     setup_person_info_events(person_info);
 	
@@ -77,7 +84,7 @@ function modal_open(event){
 }
 //close modal when clicked anywhere outside or on X exit button
 window.onclick = function(event) {
-  console.log(String(event.target));
+  //console.log(String(event.target));
   if (event.target == modal_element || event.target.classList.contains("exit")) {
 	if(opened_modal != null){
 		modal_element.style.display = "none";
@@ -308,7 +315,6 @@ function format_queue_text(amount){
 }
 
 function format_curious_text(data){
-	console.log(data);
 	if(data.curious_about_token_id!=undefined){
 		if (data.requestor != "SELF"){
 			return `${data.requestor} was curious about this person:`;

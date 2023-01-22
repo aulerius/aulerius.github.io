@@ -7,6 +7,17 @@ body{
   background-image: url("background.jpg");
   font-family: serif;
 }
+#loading_display{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+}
+#loading_display img{
+	width: 24vh;
+	margin: auto;
+	
+}
 .misc_button{
   /*width: 2em;*/
   cursor: pointer;
@@ -219,7 +230,9 @@ body{
 	margin: auto;
     margin-top: 1em;
   }
-
+.loading{
+	display: none !important;
+}
 /*person container things ------------------------*/
 .person{
   margin-top: calc(1%/var(--colums));
@@ -479,13 +492,17 @@ body{
 	}
 }
 @media screen and (max-aspect-ratio: 1/2) {
-  .modal_content {
+	.modal_content {
 		max-height: 96vh;
 		max-width: 99vw;
 		margin: 4.5vh auto;
 		font-size: 4.5vw;
 	}
+	#loading_display img{
+		width: 50vw;
+	}
 }
+
 @media screen and (max-width: 660px) {
   #person_container {
 		--colums: 2;

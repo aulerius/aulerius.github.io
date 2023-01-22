@@ -19,13 +19,17 @@
 	
 	<link rel="prefetch" href="dusty-empy-spread.webp"/>
 	<link rel="prefetch" href="dusty-empy-spread-v.webp"/>
+	<link rel="prefetch" href="about/stickout.webp"/>
 	
 </head>
 <style>
 </style>
 <body>
-
-	<div id="person_container">
+	<div id="loading_display">
+		<img src="title_text.gif">
+	</div>
+	
+	<div id="person_container" class="loading">
 
 	  <div id="info">
 		<div id="title_img"> 
@@ -70,7 +74,7 @@
 
 	</div>
 
-	<img id="thank-you" class="body_misc" src="thank-you.gif"> </img>
+	<img id="thank-you" class="body_misc loading" src="thank-you.gif"> </img>
 
 	<div id="person_info">
 	  <!-- gets moved and adjusted to appropiate person container upon opening a person view -->
@@ -116,20 +120,6 @@
 		</div>
 	</div>
 
-
-	<div id="curious_display_template" class="curious_display">
-	  <!-- gets cloned to every person container and hidden/displayed appropiately -->
-	  <img class="question" src="q.gif"> </img>
-	  <img class="curious_img" src="curious-about/no-curious.jpg"> </img>
-	</div>
-	
-	<div id="person_display_template" class="person_display">
-	  <!-- gets cloned to every person container, contains light static jpg and the actual gif-->
-	  <img class="person_lighter_img"</img>
-	  <img class="person_img" </img>
-	</div>
-
-
 	<div id="info_modal">
 	  <div id="about_info" class="modal_content">
 		<input type="image" class="exit" src="X.gif" />
@@ -169,6 +159,7 @@
 	</div>
 	
 	<div id="bottom_panel">
+	
 		<div id="curiosity_info">
 			<input type="image" class="exit" src="X.gif" />
 			<div id="queue_text">
@@ -176,7 +167,18 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<div id="curious_display_template" class="curious_display">
+	  <!-- gets cloned to every person container and hidden/displayed appropiately -->
+	  <img class="question" src="q.gif"> </img>
+	  <img class="curious_img" src="curious-about/no-curious.jpg"> </img>
+	</div>
+	
+	<div id="person_display_template" class="person_display">
+	  <!-- gets cloned to every person container, contains light static jpg and the actual gif-->
+	  <img class="person_lighter_img"</img>
+	  <img class="person_img" </img>
+	</div>
 
 	<!-- external link svg icon -->
 	<svg style="display: none;" version="2.0">
