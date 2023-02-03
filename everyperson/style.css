@@ -12,11 +12,12 @@ body{
 	height: 100vh;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
-#loading_display img{
+.viewport_centered_elem{
+}
+.viewport_centered_elem img{
 	width: 24vh;
-	margin: auto;
-	
 }
 .misc_button{
   /*width: 2em;*/

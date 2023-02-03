@@ -31,12 +31,18 @@ let opened_modal;
 let display_filter;
 let person_side; //either left or right
 let persons = []; //array of objects containing all metadata for each person
-let requests_amount = 0;
+let requests_amount;
+
+let curiosity_data_err;
 
 
 
 //retrieving data about persons that lets it build person elements and set size for container
-fetch(content_dir + "person_data.json")
+fetch(content_dir + "person_data.json", {
+	headers: {
+		'Accept': 'application/json'
+	}
+})
   .then(response => response.json())
   .then(json => {
     persons = json.persons;
@@ -59,9 +65,18 @@ fetch(content_dir + "person_data.json")
 	.then(response => response.json())
 	.then(json => {
 	process_curiosity_data(json.requests);
-	}).catch(err => console.log(err));
+	}).catch(err => {
+		console.log(err);
+		console.log(curiosity_data_err);
+		curiosity_data_err = err;
+		console.log(curiosity_data_err);
+		
+	});
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+	  console.log(err);
+	  document.getElementById("loading_message").innerHTML = "<b>person-data:</b> " + err;
+  });
 
 //open modal on specific button clicks and select appropiate content
 about_button.addEventListener("click", modal_open);
@@ -303,15 +318,18 @@ function process_curiosity_data(data){
 }
 
 function format_queue_text(amount){
-	if(amount==0){
-		return "thare are currenty no persons in the queue of curiosity";
+	if(curiosity_data_err==undefined){
+		if(amount==0){
+			return "thare are currenty no persons in the queue of curiosity";
+		}
+		else if(amount==1){
+			return "there is currenty 1 person in the queue of curiosity";
+		}
+		else{
+			return `there are currenty ${amount} persons in the queue of curiosity`;
+		}
 	}
-	else if(amount==1){
-		return "there is currenty 1 person in the queue of curiosity";
-	}
-	else{
-		return `there are currenty ${amount} persons in the queue of curiosity`;
-	}
+	else{return curiosity_data_err}
 }
 
 function format_curious_text(data){
