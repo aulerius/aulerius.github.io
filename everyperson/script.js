@@ -31,18 +31,14 @@ let opened_modal;
 let display_filter;
 let person_side; //either left or right
 let persons = []; //array of objects containing all metadata for each person
-let requests_amount;
+let requests_amount = 0;
 
 let curiosity_data_err;
 
 
 
 //retrieving data about persons that lets it build person elements and set size for container
-fetch(content_dir + "person_data.json", {
-	headers: {
-		'Accept': 'application/json'
-	}
-})
+fetch(content_dir + "person_data.json")
   .then(response => response.json())
   .then(json => {
     persons = json.persons;
@@ -297,7 +293,7 @@ function date_sort(a, b) {
     return new Date(a.request_date).getTime() - new Date(b.request_date).getTime();
 }
 function process_curiosity_data(data){
-	//status: "held-valid" "fulfiled" "transfered-invalid"
+	//status: "held-valid" "fulfilled" "transfered-invalid"
 	data.sort(date_sort);
 	for (y = 0; y < data.length; y++) {
 		id_match = persons.findIndex(x => x.token_id == data[y].token_id);

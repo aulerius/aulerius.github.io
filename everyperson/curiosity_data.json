@@ -4,14 +4,14 @@
 		"token_id": 5,
 		"request_date": "2022-07",
 		"requestor": "SELF",
-		"status": "fulfiled",
+		"status": "fulfilled",
 		"message": "chosen by author, gifted to all holders"
 	},
 	{
 		"token_id": 2,
 		"request_date": "2022-08",
 		"requestor": "SELF",
-		"status": "fulfiled",
+		"status": "fulfilled",
 		"message": "chosen by author, gifted to all holders"
 	},
 	{
@@ -20,7 +20,7 @@
 		"requestor": "Chris Randall",
 		"requestor_twitter": "chrisrandallar1",
 		"requestor_wallet": "tz1ibTknNagJCgQPgcbPvJhpSyS5vxgdyFt4",
-		"status": "fulfiled"
+		"status": "fulfilled"
 	},
 	{
 		"token_id": 0,
