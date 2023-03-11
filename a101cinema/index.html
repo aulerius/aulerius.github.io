@@ -70,6 +70,8 @@
 	const selection_runtime = document.getElementById("selection_runtime");
 	const poster = document.getElementById("poster");
 	
+	init();
+	
 	function init() {
     fetch(gsheet_url)
         .then(res => res.text())
