@@ -26,22 +26,22 @@
         <span class="info">Next screening:</span> <br>
     </div>
     <div class="info_group">
-      <span class="info_content">13th of March, 20:00</span> <br>
+      <span id="selection_date" class="info_content"></span> <br>
     </div>
     <div class="info_group">
       <span class="info">selection:</span> <br>
     </div>
     <div class="info_group">
-      <span class="info_content"><i>The Guardian (2017)<br>(DaHuFa)</i></span>  <br>
+      <span id="selection_title" class="info_content"></span><br>
     </div>
     <div class="info_group">
       <span class="info">runtime:</span> <br>
     </div>
     <div class="info_group">
-      <span class="info_content">1h 33m</span> <br>
+      <span id="selection_runtime" class="info_content"></span> <br>
     </div>
  </div >
- <img id="poster" src="https://m.media-amazon.com/images/M/MV5BNWJmZjY1MzYtNGVmMi00ZTY2LWE0YTEtN2Q5NjIwMGY5MmVkXkEyXkFqcGdeQXVyNzg0OTgxNzA@._V1_.jpg"></img>
+ <img id="poster" src=""></img>
  </div>
 
   <div class="extras_group" style="margin-bottom: 1em;">
@@ -49,61 +49,49 @@
   </div>
   <div id="question_mark"><span class=colorshift>?</span></div>
       
-  <div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p><b>"AIOI cinema"</b> is an invitation to partake in regular rituals of experiencing film in our very own cinema room, the A101, or AIOI "ayaoi", or AlOl "alol".</p>
-      <p>This initiative is kickstarted by Aurelijus and animation department, with a goal of making use of school screening facilities and enabling engagement from all of EKA community. Please leave screening suggestions in the <a href="https://docs.google.com/spreadsheets/d/19VuIHHfXWdGLnEVLMkBOQXKXy5d1tFoYGq0e9RjBQ4c/edit?usp=sharing">google doc<a>. In some cases, we could arrange renting or access to some hard-to-get films with the help of school.</p>
-      <p>This webpage will be maintained and updated as details change. Write to <u>aurelijus.ciupas@artun.ee</u> if you want to chat about this initiative.</p>
-    </div>
- </div>
+	<div id="myModal" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<p><b>"AIOI cinema"</b> is an invitation to partake in regular rituals of experiencing film in our very own cinema room, the A101, or AIOI "ayaoi", or AlOl "alol".</p>
+			<p>This initiative is kickstarted by Aurelijus and animation department, with a goal of making use of school screening facilities and enabling engagement from all of EKA community. Please leave screening suggestions in the <a href="https://docs.google.com/spreadsheets/d/19VuIHHfXWdGLnEVLMkBOQXKXy5d1tFoYGq0e9RjBQ4c/edit?usp=sharing">google doc<a>. In some cases, we could arrange renting or access to some hard-to-get films with the help of school.</p>
+			<p>This webpage will be maintained and updated as details change. Write to <u>aurelijus.ciupas@artun.ee</u> if you want to chat about this initiative.</p>
+		</div>
+	</div>
     
-  <script>
-	const sheetId = '1-6PTeKGLvOIr-VyTPE5SS6LznQ1QHU3vEKz6-LAm2b0';
-	const base = "https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?";
-	const sheetName = 'Epoch 6';
-	const query = encodeURIComponent('Select *')
-	const gsheet_url = `${base}&sheet=${sheetName}&tq=${query}`
+<script>
+	const sheetId = '1CaKLo95C7vhog53_AyqhrNc19IBVL3TZUWuIaw73_5Q';
+	const sheetName = 'a101';
+	const query = encodeURIComponent('offset 1')
+	const gsheet_url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?sheet=${sheetName}&tq=${query}`
 	
-	const gsheet_data = []
-	document.addEventListener('DOMContentLoaded', init)
+	const selection_date = document.getElementById("selection_date");
+	const selection_title = document.getElementById("selection_title");
+	const selection_runtime = document.getElementById("selection_runtime");
+	const poster = document.getElementById("poster");
 	
 	function init() {
     fetch(gsheet_url)
         .then(res => res.text())
         .then(rep => {
             //Remove additional text and extract only JSON:
-            const jsonData = JSON.parse(rep.substring(47).slice(0, -2));
-            console.log(jsonData)
-			/*
-            const colz = [];
-            const tr = document.createElement('tr');
-            //Extract column labels
-			
-			
-            jsonData.table.cols.forEach((heading) => {
-                if (heading.label) {
-                    let column = heading.label;
-                    colz.push(column);
-                    const th = document.createElement('th');
-                    th.innerText = column;
-                    tr.appendChild(th);
-                }
-            })
-            output.appendChild(tr);
-            //extract row data:
-            jsonData.table.rows.forEach((rowData) => {
-                const row = {};
-                colz.forEach((ele, ind) => {
-                    row[ele] = (rowData.c[ind] != null) ? rowData.c[ind].v : '';
-                })
-                data.push(row);
-            })
-            processRows(data);
-			*/
+            const sheet_json = JSON.parse(rep.substring(47).slice(0, -2));
+			console.log(sheet_json);
+			assign_selection_data(sheet_json);
         })
+		.catch(err => {
+			console.log(err);
+		});
 	}
+  
+  function assign_selection_data(data){
+	selection_title.innerHTML = data.table.rows[0].c[0].v;
+	selection_runtime.innerHTML = data.table.rows[0].c[1].v;
+	selection_date.innerHTML = data.table.rows[0].c[2].v;
+	poster.src = data.table.rows[0].c[3].v;
+  }
+  
+  
   
   
   // Get the modal
@@ -131,6 +119,6 @@
       modal.style.display = "none";
     }
   }
-  </script>
+</script>
 </body>
 </html>
