@@ -15,6 +15,7 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   width: 60vw;
   height: 82vh;
   margin: auto;
@@ -29,7 +30,6 @@ body {
 }
 #main_info{
   display: inline-block;
-  width: 50%;
   vertical-align: middle;
   font-family: arial;
   font-style: normal;

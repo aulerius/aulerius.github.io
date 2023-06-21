@@ -19,33 +19,34 @@
 <body>
 <div id="content">
 <div id="main_info">
-    <div class="info_group">
+    <div class="info_group" style="display: none;">
         <span class="info_content" style="z-index: 99;">screenings every Monday evening at EKA  A101</span> <br>
     </div>
-    <div class="info_group">
+    <div class="info_group" style="display: none;">
         <span class="info">Next screening:</span> <br>
     </div>
-    <div class="info_group">
+    <div class="info_group" style="display: none;">
       <span id="selection_date" class="info_content"></span> <br>
     </div>
     <div class="info_group">
-      <span class="info">selection:</span> <br>
+      <span class="info">screenings are over</span> <br>
     </div>
     <div class="info_group">
-      <span id="selection_title" class="info_content"></span><br>
+      <span class="info_content">
+	  I (Aurelijus) am taking academic leave and leaving Tallinn for the time being👋<br> If anything similar gets organized next semester, I will update this website.</span><br>
     </div>
-    <div class="info_group">
+    <div class="info_group" style="display: none;">
       <span class="info">runtime:</span> <br>
     </div>
-    <div class="info_group">
+    <div class="info_group" style="display: none;">
       <span id="selection_runtime" class="info_content"></span> <br>
     </div>
  </div >
- <img id="poster" src=""></img>
+ <img id="poster" style="display: none;" src=""></img>
  </div>
 
   <div class="extras_group" style="margin-bottom: 1em;">
-    <a class="colorshift"  href="https://docs.google.com/spreadsheets/d/19VuIHHfXWdGLnEVLMkBOQXKXy5d1tFoYGq0e9RjBQ4c/edit?usp=sharing">suggest films<br> (with EKA artun.ee accounts)<a>
+    <a class="colorshift"  href="https://docs.google.com/spreadsheets/d/19VuIHHfXWdGLnEVLMkBOQXKXy5d1tFoYGq0e9RjBQ4c/edit?usp=sharing">film suggestion archive<br>(with EKA artun.ee accounts)<a>
   </div>
   <div id="question_mark"><span class=colorshift>?</span></div>
       
@@ -54,8 +55,8 @@
 		<div class="modal-content">
 			<span class="close">&times;</span>
 			<p><b>"AIOI cinema"</b> is an invitation to partake in regular rituals of experiencing film in our very own cinema room, the A101, or AIOI "ayaoi", or AlOl "alol".</p>
-			<p>This initiative is kickstarted by Aurelijus and animation department, with a goal of making use of school screening facilities and enabling engagement from all of EKA community. Please leave screening suggestions in the <a href="https://docs.google.com/spreadsheets/d/19VuIHHfXWdGLnEVLMkBOQXKXy5d1tFoYGq0e9RjBQ4c/edit?usp=sharing">google doc<a>. In some cases, we could arrange renting or access to some hard-to-get films with the help of school.</p>
-			<p>This webpage will be maintained and updated as details change. Write to <u>aurelijus.ciupas@artun.ee</u> if you want to chat about this initiative.</p>
+			<p>This initiative is kickstarted by Aurelijus and animation department, with a goal of making use of school screening facilities and enabling engagement from all of EKA community.</p><p>I (Aurelijus) am taking academic leave and leaving Tallinn for the time being, so screenings organized by me are finished.</p>
+			<p>Write to <u>aurelijus.ciupas@artun.ee</u> if you want to chat about this initiative.</p>
 		</div>
 	</div>
     
@@ -79,7 +80,7 @@
             //Remove additional text and extract only JSON:
             const sheet_json = JSON.parse(rep.substring(47).slice(0, -2));
 			console.log(sheet_json);
-			assign_selection_data(sheet_json);
+			//assign_selection_data(sheet_json);
         })
 		.catch(err => {
 			console.log(err);
