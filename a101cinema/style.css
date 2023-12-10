@@ -37,7 +37,7 @@ body {
   text-align: center;
   margin-bottom: 3%;
 width: 50%;
-line-height: 1.15;
+line-height: 1.25;
 }
 @media screen and (min-height: 100vw) {
   /* The width is greater than the height */
