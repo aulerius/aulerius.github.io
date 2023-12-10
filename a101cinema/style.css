@@ -15,7 +15,6 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   width: 60vw;
   height: 82vh;
   margin: auto;
@@ -37,6 +36,8 @@ body {
   font-size: 4.5vmin;
   text-align: center;
   margin-bottom: 3%;
+width: 50%;
+line-height: 1.15;
 }
 @media screen and (min-height: 100vw) {
   /* The width is greater than the height */
