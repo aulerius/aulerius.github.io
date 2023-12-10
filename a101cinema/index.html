@@ -73,7 +73,7 @@
             //Remove additional text and extract only JSON:
             const sheet_json = JSON.parse(rep.substring(47).slice(0, -2));
 			console.log(sheet_json);
-			//assign_selection_data(sheet_json);
+			assign_selection_data(sheet_json);
         })
 		.catch(err => {
 			console.log(err);
