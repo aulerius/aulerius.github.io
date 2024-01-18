@@ -1,6 +1,6 @@
 const content_dir = "https://aulerius.art/everyperson/";
 const objkt_adress = "https://objkt.com/asset/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2iF/"; //leads to person token by id
-const versum_adress = "https://versum.xyz/token/versum/"; //leads to curious-about token by ITEM id
+const versum_adress = "https://objkt.com/tokens/versum_items/"; //leads to curious-about token by ITEM id
 
 const loading_display = document.getElementById("loading_display");
 const person_container = document.getElementById("person_container");
