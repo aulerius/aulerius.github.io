@@ -1,4 +1,4 @@
-const content_dir = "https://aulerius.art/everyperson/";
+const content_dir = "/everyperson/";
 const objkt_adress = "https://objkt.com/asset/KT1XAfXQ9Q8GKTeNVb8d3dgLtrom7vuYU2iF/"; //leads to person token by id
 const versum_adress = "https://objkt.com/tokens/versum_items/"; //leads to curious-about token by ITEM id
 
