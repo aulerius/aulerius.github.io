@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Sliding Grid</title>
+    <style>
+        :root {
+            /* Normalized grid dimensions, set by JS */
+            --grid-rows: 1;
+            --grid-cols: 1;
+            --cell-width: calc(100% / var(--grid-cols));
+            --cell-height: calc(100% / var(--grid-rows));
+            --bg-color: #111;
+            --line-color: #8a8a8a;
+            --line-width: 1px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        h1 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #eee;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+        }
+
+        .grid-window {
+            /* Flexible viewport */
+            width: 100vmin;
+            max-width: 80vh;
+            max-height: 80vh;
+            /* Maintain aspect ratio based on grid dimensions */
+            aspect-ratio: var(--grid-cols) / var(--grid-rows);
+
+            border: 1px solid var(--line-color);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+            background: var(--bg-color);
+            touch-action: none;
+            /* Prevent default touch scrolling */
+        }
+
+        .grid-window:active,
+        .grid-window:active * {
+            cursor: grabbing !important;
+        }
+
+        .item-content a {
+            cursor: pointer;
+        }
+
+        .item {
+            position: absolute;
+            container-type: size;
+            /* Size based on grid dimensions */
+            width: var(--cell-width);
+            height: var(--cell-height);
+
+            box-sizing: border-box;
+            border-right: var(--line-width) dotted var(--line-color);
+            border-bottom: var(--line-width) dotted var(--line-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            will-change: transform;
+            background-color: var(--bg-color);
+            z-index: 1;
+        }
+
+        /* Ghost items (clones) */
+        .item.ghost {
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .item-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            font-size: 80cqw;
+        }
+
+        .item.activated .item-content .inactive {
+            display: none;
+        }
+
+        .item:not(.activated) .item-content .active {
+            display: none;
+        }
+
+        .item-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .item-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+            z-index: 10;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background: #222;
+            border: 1px solid #333;
+            color: #aaa;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="grid-window" id="grid-window">
+            <!-- Items injected here -->
+        </div>
+
+        <div class="controls">
+            <button onclick="resetGrid()">Reset</button>
+        </div>
+    </div>
+
+    <!-- Templates for Grid Items -->
+    <div id="templates" style="display: none;">
+        <!-- Vimeo -->
+        <div id="cell_vim">
+            <div class="item-content">
+                <a href="https://vimeo.com" target="_blank" draggable="false"
+                    style="display:block; width:100%; height:100%;">
+                    <img src="icons/vimeo.webp" alt="Vimeo" draggable="false">
+                </a>
+            </div>
+        </div>
+        <!-- Youtube -->
+        <div id="cell_you">
+            <div class="item-content">
+                <a href="https://youtube.com" target="_blank" draggable="false"
+                    style="display:block; width:100%; height:100%;">
+                    <img src="icons/youtube.webp" alt="YouTube" draggable="false">
+                </a>
+            </div>
+        </div>
+        <!-- Behance -->
+        <div id="cell_beh">
+            <div class="item-content">
+                <a href="https://behance.net" target="_blank" draggable="false"
+                    style="display:block; width:100%; height:100%;">
+                    <img src="icons/behance.webp" alt="Behance" draggable="false">
+                </a>
+            </div>
+        </div>
+        <!-- Bluesky -->
+        <div id="cell_blu">
+            <div class="item-content">
+                <a href="https://bsky.app" target="_blank" draggable="false"
+                    style="display:block; width:100%; height:100%;">
+                    <img src="icons/bluesky.webp" alt="Bluesky" draggable="false">
+                </a>
+            </div>
+        </div>
+
+        <!-- Animated Gifs -->
+        <div id="cell_au1">
+            <div class="item-content">
+                <img class="active" src="icons/au_1.gif" draggable="false">
+                <div class="inactive">a</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+        <div id="cell_au2">
+            <div class="item-content">
+                <img class="active" src="icons/au_2.gif" draggable="false">
+                <div class="inactive">u</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+        <div id="cell_au3">
+            <div class="item-content">
+                <img class="active" src="icons/au_3.gif" draggable="false">
+                <div class="inactive">l</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+        <div id="cell_au4">
+            <div class="item-content">
+                <img class="active" src="icons/au_4.gif" draggable="false">
+                <div class="inactive">e</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+        <div id="cell_au5">
+            <div class="item-content">
+                <img class="active" src="icons/au_5.gif" draggable="false">
+                <div class="inactive">r</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+        <div id="cell_au6">
+            <div class="item-content">
+                <img class="active" src="icons/au_6.gif" draggable="false">
+                <div class="inactive">i</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+        <div id="cell_au7">
+            <div class="item-content">
+                <img class="active" src="icons/au_7.gif" draggable="false">
+                <div class="inactive">u</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+        <div id="cell_au8">
+            <div class="item-content">
+                <img class="active" src="icons/au_8.gif" draggable="false">
+                <div class="inactive">s</div> <!-- test element for when the cell is not activated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid Layout String -->
+    <script>
+        const LAYOUT_STRING = `
+        vim             ,            ,            ,           ,               ,                  ,                  ,                  ;
+                        ,au7         ,            ,au8        ,               ,au5               ,                  ,you               ;
+        au1             ,            ,beh         ,           ,               ,                  ,au6               ,                  ;
+                        ,au2         ,            ,           ,               ,                  ,                  ,au4               ;
+                        ,            ,            ,           ,               ,au3               ,                  ,                  ;
+                        ,            ,            ,           ,blu            ,                  ,                  ,                  ;
+        `;
+
+        const GRID_PADDING = { rows: 2, cols: 0 }; // Total padding to add (split evenly)
+
+        const CONFIG = {
+            rows: 0,
+            cols: 0
+        };
+
+        const MATCH_RULES = [
+            {
+                name: 'gold_sequence',
+                chain: [
+                    { key: 'au1' },
+                    { key: 'au2', dir: 'right' },
+                    { key: 'au3', dir: 'right' },
+                    { key: 'au4', dir: 'right' },
+                    { key: 'au5', dir: 'right' },
+                    { key: 'au6', dir: 'right' },
+                    { key: 'au7', dir: 'right' },
+                    { key: 'au8', dir: 'right' }
+                ]
+            }
+        ];
+
+        const cell_css_transition = 'transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1)';
+
+        // State
+        let items = []; // { r, c, contentHtml, el }
+        let ghosts = []; // Array of ghost elements
+        let isDragging = false;
+        let dragOccurred = false;
+        let startX, startY;
+        let dragAxis = null; // 'x' or 'y'
+        let dragIndex = -1; // row or col index
+
+        // Dynamic sizing state
+        let currentCellWidth = 0;
+        let currentCellHeight = 0;
+        let currentDragShift = 0; // Normalized float (e.g. 1.5 = 1.5 cells)
+
+        const gridWindow = document.getElementById('grid-window');
+        const templatesContainer = document.getElementById('templates');
+
+        function init() {
+            parseLayout(LAYOUT_STRING, GRID_PADDING);
+            setupEvents();
+        }
+
+        function parseLayout(str, padding) {
+            // Split by semicolon for rows, filter out empty lines
+            const rowsRaw = str.trim().split(';').map(r => r.trim()).filter(r => r.length > 0);
+
+            // Parse cells
+            const gridData = rowsRaw.map(rowStr => {
+                return rowStr.split(',').map(cell => cell.trim());
+            });
+
+            const contentRows = gridData.length;
+            const contentCols = Math.max(...gridData.map(r => r.length));
+
+            // Calculate final size
+            CONFIG.rows = contentRows + padding.rows;
+            CONFIG.cols = contentCols + padding.cols;
+
+            // Calculate offset to center content
+            const offsetR = Math.floor(padding.rows / 2);
+            const offsetC = Math.floor(padding.cols / 2);
+
+            let tempItems = [];
+
+            // Create items from data
+            gridData.forEach((row, r) => {
+                row.forEach((cellKey, c) => {
+                    if (cellKey && cellKey.length > 0) {
+                        // Look for template
+                        let contentHtml = '';
+                        const template = templatesContainer.querySelector(`#cell_${cellKey}`);
+
+                        if (template) {
+                            contentHtml = template.innerHTML;
+                        } else {
+                            console.warn(`Template for key '${cellKey}' not found.`);
+                            contentHtml = `<div class="item-content">?</div>`;
+                        }
+
+                        tempItems.push({
+                            r: r + offsetR,
+                            c: c + offsetC,
+                            key: cellKey,
+                            contentHtml: contentHtml
+                        });
+                    }
+                });
+            });
+
+            // Update CSS vars
+            document.documentElement.style.setProperty('--grid-rows', CONFIG.rows);
+            document.documentElement.style.setProperty('--grid-cols', CONFIG.cols);
+
+            createGrid(tempItems);
+        }
+
+        function createGrid(dataItems) {
+            gridWindow.innerHTML = '';
+            items = [];
+
+            // We need a cell for every position to draw the grid lines
+            for (let r = 0; r < CONFIG.rows; r++) {
+                for (let c = 0; c < CONFIG.cols; c++) {
+                    const data = dataItems.find(i => i.r === r && i.c === c);
+                    const content = data ? data.contentHtml : '';
+                    const key = data ? data.key : null;
+
+                    const el = document.createElement('div');
+                    el.className = 'item';
+                    el.innerHTML = content;
+
+                    if (key) {
+                        el.id = key; // Assign DOM id from content key
+                    }
+
+                    gridWindow.appendChild(el);
+
+                    // Initial Position
+                    updateItemPosition(el, r, c);
+                    updatePositionAttributes(el, r, c);
+
+                    items.push({
+                        r,
+                        c,
+                        el,
+                        key,
+                        baseContent: content
+                    });
+                }
+            }
+            checkMatches();
+        }
+
+        function updateItemPosition(el, r, c) {
+            // Using percentages relative to the item itself (which is 1 unit size)
+            // c * 100% moves it c units.
+            el.style.transform = `translate(${c * 100}%, ${r * 100}%)`;
+        }
+
+        function setupEvents() {
+            gridWindow.addEventListener('mousedown', onMouseDown);
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+
+            // Prevent default browser drag-and-drop on links/images
+            gridWindow.addEventListener('dragstart', e => e.preventDefault());
+
+            // Handle link clicking vs grid sliding
+            gridWindow.addEventListener('click', onClick, true);
+
+            gridWindow.addEventListener('touchstart', e => onMouseDown(e.touches[0]), { passive: false });
+            window.addEventListener('touchmove', e => onMouseMove(e.touches[0]), { passive: false });
+            window.addEventListener('touchend', onMouseUp);
+        }
+
+        function onClick(e) {
+            // If the grid was actually moved, suppress the click event on child elements (links)
+            if (dragOccurred) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+        }
+
+        function onMouseDown(e) {
+            const rect = gridWindow.getBoundingClientRect();
+            dragOccurred = false;
+
+            // Calculate current cell dimensions based on current responsive size
+            currentCellWidth = rect.width / CONFIG.cols;
+            currentCellHeight = rect.height / CONFIG.rows;
+
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const col = Math.floor(x / currentCellWidth);
+            const row = Math.floor(y / currentCellHeight);
+
+            dragIndex = { row, col };
+            dragAxis = null;
+            currentDragShift = 0;
+        }
+
+        function onMouseMove(e) {
+            if (!isDragging) return;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            if (!dragAxis) {
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    dragAxis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+                    dragOccurred = true;
+                    createGhosts(); // Create ghosts once axis is decided
+                } else {
+                    return;
+                }
+            }
+
+            // Prevent default scroll if needed (for touch) but be careful
+            if (e.preventDefault) e.preventDefault();
+
+            // Calculate shift in terms of "cells" (float)
+            if (dragAxis === 'x') {
+                currentDragShift = dx / currentCellWidth;
+            } else {
+                currentDragShift = dy / currentCellHeight;
+            }
+
+            updateDragVisuals();
+        }
+
+        function createGhosts() {
+            // Clear old ghosts just in case
+            ghosts.forEach(g => g.el.remove());
+            ghosts = [];
+
+            // Identify items to clone
+            const targets = items.filter(item => {
+                if (dragAxis === 'x') return item.r === dragIndex.row;
+                if (dragAxis === 'y') return item.c === dragIndex.col;
+                return false;
+            });
+
+            // Ghost shifts in normalized cell units
+            const offset = dragAxis === 'x' ? CONFIG.cols : CONFIG.rows;
+
+            targets.forEach(item => {
+                // Ghost 1 (Negative shift)
+                const g1 = item.el.cloneNode(true);
+                g1.classList.add('ghost');
+                gridWindow.appendChild(g1);
+                ghosts.push({ el: g1, item: item, shiftUnit: -offset });
+
+                // Ghost 2 (Positive shift)
+                const g2 = item.el.cloneNode(true);
+                g2.classList.add('ghost');
+                gridWindow.appendChild(g2);
+                ghosts.push({ el: g2, item: item, shiftUnit: offset });
+            });
+        }
+
+        function updateDragVisuals() {
+            // Move Real Items
+            items.forEach(item => {
+                let shouldMove = false;
+                if (dragAxis === 'x' && item.r === dragIndex.row) shouldMove = true;
+                if (dragAxis === 'y' && item.c === dragIndex.col) shouldMove = true;
+
+                if (shouldMove) {
+                    item.el.style.transition = 'none';
+
+                    if (dragAxis === 'x') {
+                        let rawPos = item.c + currentDragShift;
+                        // Wrap logic: ((raw % MAX) + MAX) % MAX
+                        let visPos = ((rawPos % CONFIG.cols) + CONFIG.cols) % CONFIG.cols;
+                        item.el.style.transform = `translate(${visPos * 100}%, ${item.r * 100}%)`;
+                    } else {
+                        let rawPos = item.r + currentDragShift;
+                        let visPos = ((rawPos % CONFIG.rows) + CONFIG.rows) % CONFIG.rows;
+                        item.el.style.transform = `translate(${item.c * 100}%, ${visPos * 100}%)`;
+                    }
+                }
+            });
+
+            // Move Ghosts
+            ghosts.forEach(g => {
+                g.el.style.transition = 'none';
+                const item = g.item;
+
+                if (dragAxis === 'x') {
+                    // Logic: Find parent visual position, then add ghost shift
+                    let rawPos = item.c + currentDragShift;
+                    let parentVisPos = ((rawPos % CONFIG.cols) + CONFIG.cols) % CONFIG.cols;
+
+                    let ghostPos = parentVisPos + g.shiftUnit;
+                    g.el.style.transform = `translate(${ghostPos * 100}%, ${item.r * 100}%)`;
+                } else {
+                    let rawPos = item.r + currentDragShift;
+                    let parentVisPos = ((rawPos % CONFIG.rows) + CONFIG.rows) % CONFIG.rows;
+
+                    let ghostPos = parentVisPos + g.shiftUnit;
+                    g.el.style.transform = `translate(${item.c * 100}%, ${ghostPos * 100}%)`;
+                }
+            });
+        }
+
+        function onMouseUp(e) {
+            if (!isDragging) return;
+            isDragging = false;
+
+            const totalSize = dragAxis === 'x' ? CONFIG.cols : CONFIG.rows;
+
+            // Calculate integer shift (shortest path snap)
+            // Round to nearest integer cell
+            const shift = Math.round(currentDragShift);
+
+            // Apply to logical state & animate
+            if (dragAxis === 'x') {
+                const row = dragIndex.row;
+                items.forEach(item => {
+                    if (item.r === row) {
+                        // Current Visual Position (wrapped, in units 0..cols)
+                        let rawPos = item.c + currentDragShift;
+                        let visPos = ((rawPos % totalSize) + totalSize) % totalSize;
+
+                        // New Logical Column
+                        let newC = item.c + shift;
+                        newC = ((newC % CONFIG.cols) + CONFIG.cols) % CONFIG.cols;
+
+                        let target = item.c + shift;
+                        let wrappedTarget = ((target % totalSize) + totalSize) % totalSize;
+
+                        let diff = visPos - wrappedTarget;
+                        let k = Math.round(diff / totalSize);
+                        let finalTarget = wrappedTarget + (k * totalSize);
+
+                        item.tempTarget = finalTarget;
+
+                        // Animate
+                        item.el.style.transition = cell_css_transition;
+                        item.el.style.transform = `translate(${finalTarget * 100}%, ${item.r * 100}%)`;
+
+                        // Update logical
+                        item.c = wrappedTarget; // The new real index [0..cols-1]
+                        updatePositionAttributes(item.el, item.r, item.c);
+
+                        // Reset after animation
+                        if (finalTarget !== wrappedTarget) {
+                            const onEnd = () => {
+                                item.el.style.transition = 'none';
+                                item.el.style.transform = `translate(${wrappedTarget * 100}%, ${item.r * 100}%)`;
+                                item.el.removeEventListener('transitionend', onEnd);
+                            };
+                            item.el.addEventListener('transitionend', onEnd, { once: true });
+                        }
+                    }
+                });
+            } else if (dragAxis === 'y') {
+                const col = dragIndex.col;
+                items.forEach(item => {
+                    if (item.c === col) {
+                        let rawPos = item.r + currentDragShift;
+                        let visPos = ((rawPos % totalSize) + totalSize) % totalSize;
+
+                        let shift = Math.round(currentDragShift);
+                        let target = item.r + shift;
+                        let wrappedTarget = ((target % totalSize) + totalSize) % totalSize;
+
+                        let diff = visPos - wrappedTarget;
+                        let k = Math.round(diff / totalSize);
+                        let finalTarget = wrappedTarget + (k * totalSize);
+
+                        item.tempTarget = finalTarget;
+
+                        item.el.style.transition = cell_css_transition;
+                        item.el.style.transform = `translate(${item.c * 100}%, ${finalTarget * 100}%)`;
+
+                        item.r = wrappedTarget;
+                        updatePositionAttributes(item.el, item.r, item.c);
+
+                        if (finalTarget !== wrappedTarget) {
+                            const onEnd = () => {
+                                item.el.style.transition = 'none';
+                                item.el.style.transform = `translate(${item.c * 100}%, ${wrappedTarget * 100}%)`;
+                                item.el.removeEventListener('transitionend', onEnd);
+                            };
+                            item.el.addEventListener('transitionend', onEnd, { once: true });
+                        }
+                    }
+                });
+            }
+
+            // Animate Ghosts
+            ghosts.forEach(g => {
+                const item = g.item;
+                if (item.tempTarget !== undefined) {
+                    g.el.style.transition = cell_css_transition;
+
+                    if (dragAxis === 'x') {
+                        let ghostTarget = item.tempTarget + g.shiftUnit;
+                        g.el.style.transform = `translate(${ghostTarget * 100}%, ${item.r * 100}%)`;
+                    } else {
+                        let ghostTarget = item.tempTarget + g.shiftUnit;
+                        g.el.style.transform = `translate(${item.c * 100}%, ${ghostTarget * 100}%)`;
+                    }
+                }
+            });
+
+            // Cleanup ghosts after animation
+            const currentGhosts = [...ghosts];
+
+            setTimeout(() => {
+                currentGhosts.forEach(g => {
+                    if (g.el.parentNode) g.el.remove();
+                });
+
+                if (ghosts.length > 0 && ghosts[0] === currentGhosts[0]) {
+                    ghosts = [];
+                }
+            }, 300);
+
+            dragAxis = null;
+            dragIndex = -1;
+            currentDragShift = 0;
+            checkMatches();
+        }
+
+        function updatePositionAttributes(el, r, c) {
+            el.dataset.row = r;
+            el.dataset.col = c;
+        }
+
+        function resetGrid() {
+            parseLayout(LAYOUT_STRING, GRID_PADDING);
+        }
+
+        function checkMatches() {
+            // Reset activation
+            items.forEach(item => {
+                if (item.key) {
+                    item.el.classList.remove('activated');
+                }
+            });
+
+            MATCH_RULES.forEach(rule => {
+                const chain = rule.chain;
+                if (!chain || chain.length === 0) return;
+
+                // Find the first item in the chain
+                const startItem = items.find(i => i.key === chain[0].key);
+                if (!startItem) return;
+
+                // Track items that satisfy the partial/full chain
+                const validSequence = [startItem];
+                let current = startItem;
+
+                for (let i = 1; i < chain.length; i++) {
+                    const step = chain[i];
+                    // Find the next item required by the chain
+                    const next = items.find(k => k.key === step.key);
+
+                    if (next && isNeighbor(current, next, step.dir)) {
+                        validSequence.push(next);
+                        current = next;
+                    } else {
+                        // Chain broken
+                        break;
+                    }
+                }
+
+                // Activate if we have a connected chain of at least 2 items
+                if (validSequence.length >= 2) {
+                    validSequence.forEach(item => item.el.classList.add('activated'));
+                }
+            });
+        }
+
+        function isNeighbor(itemA, itemB, dir) {
+            let tr = itemA.r;
+            let tc = itemA.c;
+
+            switch (dir) {
+                case 'right': tc += 1; break;
+                case 'left': tc -= 1; break;
+                case 'down': tr += 1; break;
+                case 'up': tr -= 1; break;
+            }
+
+            // Handle wrapping
+            const targetR = ((tr % CONFIG.rows) + CONFIG.rows) % CONFIG.rows;
+            const targetC = ((tc % CONFIG.cols) + CONFIG.cols) % CONFIG.cols;
+
+            return itemB.r === targetR && itemB.c === targetC;
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
